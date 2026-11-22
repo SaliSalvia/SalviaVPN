@@ -14,7 +14,7 @@ const appVersion = String.fromEnvironment('APP_VERSION', defaultValue: '0.0.0');
 
 /// The GitHub repository, "owner/name", for the source link and the update
 /// check.
-const githubRepo = 'salvia-vpn/salvia-vpn-client';
+const githubRepo = 'SaliSalvia/SalviaVPN';
 
 /// The update manifest and its mirror. A build may name others
 /// (--dart-define=UPDATE_MANIFEST_URL=..., UPDATE_MANIFEST_MIRROR=...) to
@@ -23,12 +23,12 @@ const githubRepo = 'salvia-vpn/salvia-vpn-client';
 const updateManifestUrl = String.fromEnvironment(
   'UPDATE_MANIFEST_URL',
   defaultValue:
-      'https://raw.githubusercontent.com/salvia-vpn/update-manifests/main/salvia-vpn-client/updates.json',
+      'https://raw.githubusercontent.com/SaliSalvia/SalviaVPN/main/.github/updates.json',
 );
 const updateManifestMirror = String.fromEnvironment(
   'UPDATE_MANIFEST_MIRROR',
   defaultValue:
-      'https://cdn.jsdelivr.net/gh/salvia-vpn/update-manifests@main/salvia-vpn-client/updates.json',
+      'https://cdn.jsdelivr.net/gh/salisalvia/salviavpn@main/.github/updates.json',
 );
 
 /// A release server used instead of GitHub, to try updates with a local

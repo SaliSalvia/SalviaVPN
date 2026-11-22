@@ -13,9 +13,9 @@
 
 <div align="center">
 
-[![Downloads](https://img.shields.io/github/downloads/salvia-vpn/salvia-vpn-client/total?style=flat-square&logo=github&label=Downloads)](https://github.com/salvia-vpn/salvia-vpn-client/releases)
-[![Last Version](https://img.shields.io/github/v/release/salvia-vpn/salvia-vpn-client?style=flat-square&label=Version)](https://github.com/salvia-vpn/salvia-vpn-client/releases/latest)
-[![License](https://img.shields.io/github/license/salvia-vpn/salvia-vpn-client?style=flat-square&label=License)](LICENSE)
+[![Downloads](https://img.shields.io/github/downloads/SaliSalvia/SalviaVPN/total?style=flat-square&logo=github&label=Downloads)](https://github.com/SaliSalvia/SalviaVPN/releases)
+[![Last Version](https://img.shields.io/github/v/release/SaliSalvia/SalviaVPN?style=flat-square&label=Version)](https://github.com/SaliSalvia/SalviaVPN/releases/latest)
+[![License](https://img.shields.io/github/license/SaliSalvia/SalviaVPN?style=flat-square&label=License)](LICENSE)
 [![Telegram](https://img.shields.io/badge/Telegram-SalviaVPNClient-26A5E4?style=flat-square&logo=telegram&logoColor=white)](https://t.me/SalviaVPNClient)
 
 </div>
@@ -67,12 +67,12 @@ For **Android, Windows, macOS, and Linux**; completely free, with no ads.
 <tr><th>System</th><th>Download</th></tr>
 </thead>
 <tbody>
-<tr><td>Android</td><td><a href="https://github.com/salvia-vpn/salvia-vpn-client/releases/latest/download/SalviaVPN-Android-universal.apk"><img src="https://img.shields.io/badge/APK-Universal-1a7f37?logo=android&logoColor=white" alt="APK Universal"></a><br><a href="https://github.com/salvia-vpn/salvia-vpn-client/releases/latest/download/SalviaVPN-Android-arm64-v8a.apk"><img src="https://img.shields.io/badge/APK-ARMv8-2da44e?logo=android&logoColor=white" alt="APK ARMv8"></a><br><a href="https://github.com/salvia-vpn/salvia-vpn-client/releases/latest/download/SalviaVPN-Android-armeabi-v7a.apk"><img src="https://img.shields.io/badge/APK-ARMv7-4ac26b?logo=android&logoColor=white" alt="APK ARMv7"></a><br><a href="https://github.com/salvia-vpn/salvia-vpn-client/releases/latest/download/SalviaVPN-Android-x86_64.apk"><img src="https://img.shields.io/badge/APK-x64-6fdd8b?logo=android&logoColor=white" alt="APK x64"></a></td></tr>
-<tr><td>Android TV</td><td><a href="https://github.com/salvia-vpn/salvia-vpn-client/releases/latest/download/SalviaVPN-Android-universal.apk"><img src="https://img.shields.io/badge/APK-Universal-1a7f37?logo=android&logoColor=white" alt="APK Universal"></a></td></tr>
-<tr><td>Windows</td><td><a href="https://github.com/salvia-vpn/salvia-vpn-client/releases/latest/download/SalviaVPN-Windows-Setup-x64.exe"><img src="https://img.shields.io/badge/Setup-x64-0550ae?logo=windows&logoColor=white" alt="Setup x64"></a><br><a href="https://github.com/salvia-vpn/salvia-vpn-client/releases/latest/download/SalviaVPN-Windows-x64.zip"><img src="https://img.shields.io/badge/Portable-x64-0969da" alt="Portable x64"></a></td></tr>
-<tr><td>macOS</td><td><a href="https://github.com/salvia-vpn/salvia-vpn-client/releases/latest/download/SalviaVPN-macOS.dmg"><img src="https://img.shields.io/badge/DMG-Universal-24292f?logo=apple&logoColor=white" alt="DMG Universal"></a></td></tr>
-<tr><td rowspan="2">Linux</td><td><a href="https://github.com/salvia-vpn/salvia-vpn-client/releases/latest/download/SalviaVPN-Linux-amd64.tar.gz"><img src="https://img.shields.io/badge/App-amd64-e36209?logo=linux&logoColor=white" alt="App amd64"></a><br><a href="https://github.com/salvia-vpn/salvia-vpn-client/releases/latest/download/SalviaVPN-Linux-arm64.tar.gz"><img src="https://img.shields.io/badge/App-ARM64-e36209?logo=linux&logoColor=white" alt="App ARM64"></a></td></tr>
-<tr><td><a href="https://github.com/salvia-vpn/salvia-vpn-client/releases/latest/download/salvia-vpn-core-linux-amd64.tar.gz"><img src="https://img.shields.io/badge/Core-amd64-f0883e?logo=linux&logoColor=white" alt="Core amd64"></a><br><a href="https://github.com/salvia-vpn/salvia-vpn-client/releases/latest/download/salvia-vpn-core-linux-arm64.tar.gz"><img src="https://img.shields.io/badge/Core-ARM64-f6a35e?logo=linux&logoColor=white" alt="Core ARM64"></a></td></tr>
+<tr><td>Android</td><td><a href="https://github.com/SaliSalvia/SalviaVPN/releases/latest/download/SalviaVPN-Android-universal.apk"><img src="https://img.shields.io/badge/APK-Universal-1a7f37?logo=android&logoColor=white" alt="APK Universal"></a><br><a href="https://github.com/SaliSalvia/SalviaVPN/releases/latest/download/SalviaVPN-Android-arm64-v8a.apk"><img src="https://img.shields.io/badge/APK-ARMv8-2da44e?logo=android&logoColor=white" alt="APK ARMv8"></a><br><a href="https://github.com/SaliSalvia/SalviaVPN/releases/latest/download/SalviaVPN-Android-armeabi-v7a.apk"><img src="https://img.shields.io/badge/APK-ARMv7-4ac26b?logo=android&logoColor=white" alt="APK ARMv7"></a><br><a href="https://github.com/SaliSalvia/SalviaVPN/releases/latest/download/SalviaVPN-Android-x86_64.apk"><img src="https://img.shields.io/badge/APK-x64-6fdd8b?logo=android&logoColor=white" alt="APK x64"></a></td></tr>
+<tr><td>Android TV</td><td><a href="https://github.com/SaliSalvia/SalviaVPN/releases/latest/download/SalviaVPN-Android-universal.apk"><img src="https://img.shields.io/badge/APK-Universal-1a7f37?logo=android&logoColor=white" alt="APK Universal"></a></td></tr>
+<tr><td>Windows</td><td><a href="https://github.com/SaliSalvia/SalviaVPN/releases/latest/download/SalviaVPN-Windows-Setup-x64.exe"><img src="https://img.shields.io/badge/Setup-x64-0550ae?logo=windows&logoColor=white" alt="Setup x64"></a><br><a href="https://github.com/SaliSalvia/SalviaVPN/releases/latest/download/SalviaVPN-Windows-x64.zip"><img src="https://img.shields.io/badge/Portable-x64-0969da" alt="Portable x64"></a></td></tr>
+<tr><td>macOS</td><td><a href="https://github.com/SaliSalvia/SalviaVPN/releases/latest/download/SalviaVPN-macOS.dmg"><img src="https://img.shields.io/badge/DMG-Universal-24292f?logo=apple&logoColor=white" alt="DMG Universal"></a></td></tr>
+<tr><td rowspan="2">Linux</td><td><a href="https://github.com/SaliSalvia/SalviaVPN/releases/latest/download/SalviaVPN-Linux-amd64.tar.gz"><img src="https://img.shields.io/badge/App-amd64-e36209?logo=linux&logoColor=white" alt="App amd64"></a><br><a href="https://github.com/SaliSalvia/SalviaVPN/releases/latest/download/SalviaVPN-Linux-arm64.tar.gz"><img src="https://img.shields.io/badge/App-ARM64-e36209?logo=linux&logoColor=white" alt="App ARM64"></a></td></tr>
+<tr><td><a href="https://github.com/SaliSalvia/SalviaVPN/releases/latest/download/salvia-vpn-core-linux-amd64.tar.gz"><img src="https://img.shields.io/badge/Core-amd64-f0883e?logo=linux&logoColor=white" alt="Core amd64"></a><br><a href="https://github.com/SaliSalvia/SalviaVPN/releases/latest/download/salvia-vpn-core-linux-arm64.tar.gz"><img src="https://img.shields.io/badge/Core-ARM64-f6a35e?logo=linux&logoColor=white" alt="Core ARM64"></a></td></tr>
 </tbody>
 </table>
 
@@ -88,7 +88,7 @@ For **Android, Windows, macOS, and Linux**; completely free, with no ads.
 > Windows and Android users don't need this section: take the installer from the "Download" table above.
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/salvia-vpn/salvia-vpn-client/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/SaliSalvia/SalviaVPN/main/install.sh | bash
 ```
 
 ### 🌐 Web panel
@@ -145,7 +145,7 @@ The Linux core (the proxy and the web panel) is also a container image. A releas
 docker run -d --name salvia-vpn --restart unless-stopped \
   -p 10820:10820 -p 127.0.0.1:10810:10810 \
   -v salvia-vpn:/var/lib/salvia-vpn \
-  ghcr.io/salvia-vpn/salvia-vpn-client:latest
+  ghcr.io/salisalvia/salviavpn:latest
 ```
 
 The first start prints a panel login and a proxy login. Accounts and settings stay in the `salvia-vpn` volume. See the [Docker guide](docs/DOCKER.md).
