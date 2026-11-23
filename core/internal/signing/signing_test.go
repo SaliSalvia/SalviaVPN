@@ -29,6 +29,39 @@ func TestASignatureByTheKeyIsAccepted(t *testing.T) {
 	}
 }
 
+func TestAdditionalTrustedKeyIsAccepted(t *testing.T) {
+	oldPrimary, oldAdditional := Key, AdditionalKeys
+	t.Cleanup(func() {
+		Key, AdditionalKeys = oldPrimary, oldAdditional
+	})
+
+	primaryPub, _, _ := ed25519.GenerateKey(nil)
+	newPub, newPriv, _ := ed25519.GenerateKey(nil)
+	Key = base64.StdEncoding.EncodeToString(primaryPub)
+	AdditionalKeys = base64.StdEncoding.EncodeToString(newPub)
+
+	data := []byte("release manifest")
+	if err := Verify(data, sign(newPriv, data)); err != nil {
+		t.Fatalf("signature by additional trusted key was rejected: %v", err)
+	}
+}
+
+func TestMalformedAdditionalKeyFailsClosed(t *testing.T) {
+	oldPrimary, oldAdditional := Key, AdditionalKeys
+	t.Cleanup(func() {
+		Key, AdditionalKeys = oldPrimary, oldAdditional
+	})
+
+	pub, priv, _ := ed25519.GenerateKey(nil)
+	Key = base64.StdEncoding.EncodeToString(pub)
+	AdditionalKeys = "not-a-valid-public-key"
+
+	data := []byte("release manifest")
+	if err := Verify(data, sign(priv, data)); err == nil || !strings.Contains(err.Error(), "additional update key is broken") {
+		t.Fatalf("malformed additional key was not rejected: %v", err)
+	}
+}
+
 func TestOtherSignaturesAreRefused(t *testing.T) {
 	pub, priv, _ := ed25519.GenerateKey(nil)
 	_, other, _ := ed25519.GenerateKey(nil)
@@ -48,6 +81,10 @@ func TestOtherSignaturesAreRefused(t *testing.T) {
 
 func TestABuildWithoutAKeyChecksNothing(t *testing.T) {
 	_, priv, _ := ed25519.GenerateKey(nil)
+	old := AdditionalKeys
+	AdditionalKeys = ""
+	t.Cleanup(func() { AdditionalKeys = old })
+
 	withKey(t, nil)
 	Key = ""
 	if Available() {
