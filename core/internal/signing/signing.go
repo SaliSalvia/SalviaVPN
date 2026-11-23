@@ -12,38 +12,68 @@ import (
 	"strings"
 )
 
-// Key is the base64 Ed25519 public key that updates must be signed with,
-// set by the build:
-//
-//	-ldflags "-X github.com/salvia-vpn/salvia-vpn-client/core/internal/signing.Key=..."
-//
-// The release build uses the release key, whose private half only CI holds
-// (the secret SALVIA_VPN_SIGNING_KEY); a local build may use a developer
-// key. A build without one takes no updates.
+// Key is the primary base64 Ed25519 public key set by the build from the
+// private key used to sign the release. A build without Key takes no updates.
 var Key string
 
-// ErrNoKey means this build has no key, so it takes no updates.
+// AdditionalKeys contains comma-separated base64 Ed25519 public keys that
+// this build also trusts. It is used only during a deliberate key rotation:
+// the transition build is still signed by the old private key (Key), while
+// it learns to verify releases and TUN-service updates signed by the new key.
+// After the transition release has reached installed clients, the primary
+// key can be switched and the old key temporarily retained here.
+//
+// Public keys are not secrets. Never put a private key in source control.
+var AdditionalKeys = "5HoqK9wcgt/UN7zGa/u/ccuI5DE9M3flXN3zIZWjcFs="
+
+// ErrNoKey means this build has no primary update key, so it takes no updates.
 var ErrNoKey = errors.New("this build has no update key, so it takes no updates")
 
-// Available reports whether this build can check signatures.
+// Available reports whether this build has a primary key and can check signatures.
 func Available() bool { return Key != "" }
 
-// Verify checks sig, a base64 signature as tools/sign writes it (one line),
-// over data against Key.
-func Verify(data, sig []byte) error {
+// trustedKeys decodes the primary key and all configured additional keys.
+// A malformed configured key fails closed rather than being silently ignored.
+func trustedKeys() ([]ed25519.PublicKey, error) {
 	if Key == "" {
-		return ErrNoKey
+		return nil, ErrNoKey
 	}
-	key, err := base64.StdEncoding.DecodeString(Key)
-	if err != nil || len(key) != ed25519.PublicKeySize {
-		return errors.New("the build's update key is broken")
+	encoded := []string{Key}
+	for _, candidate := range strings.Split(AdditionalKeys, ",") {
+		if candidate = strings.TrimSpace(candidate); candidate != "" {
+			encoded = append(encoded, candidate)
+		}
+	}
+
+	keys := make([]ed25519.PublicKey, 0, len(encoded))
+	for i, value := range encoded {
+		raw, err := base64.StdEncoding.DecodeString(value)
+		if err != nil || len(raw) != ed25519.PublicKeySize {
+			if i == 0 {
+				return nil, errors.New("the build's update key is broken")
+			}
+			return nil, errors.New("an additional update key is broken")
+		}
+		keys = append(keys, ed25519.PublicKey(raw))
+	}
+	return keys, nil
+}
+
+// Verify checks sig, a base64 signature as tools/sign writes it (one line),
+// over data against the primary key or any explicitly trusted additional key.
+func Verify(data, sig []byte) error {
+	keys, err := trustedKeys()
+	if err != nil {
+		return err
 	}
 	raw, err := base64.StdEncoding.DecodeString(strings.TrimSpace(string(sig)))
 	if err != nil || len(raw) != ed25519.SignatureSize {
 		return errors.New("the signature is unreadable")
 	}
-	if !ed25519.Verify(ed25519.PublicKey(key), data, raw) {
-		return errors.New("the signature does not match")
+	for _, key := range keys {
+		if ed25519.Verify(key, data, raw) {
+			return nil
+		}
 	}
-	return nil
+	return errors.New("the signature does not match")
 }
