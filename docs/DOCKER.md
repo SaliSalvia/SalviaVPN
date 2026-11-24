@@ -2,7 +2,7 @@
 
 The image is the Linux core: a SOCKS5 and HTTP proxy, and the web panel. It runs `salvia-vpn-core -plain`. Debian is the image's system. The desktop app is not included.
 
-A release tag `vX.Y.Z` (the same tag as the GitHub release, the version in `app/pubspec.yaml`) publishes the image. The workflow is [`.github/workflows/docker.yml`](../.github/workflows/docker.yml). Tags are `X.Y.Z`, `vX.Y.Z`, `X.Y`, `X`, and `latest`, for `linux/amd64` and `linux/arm64`. The image name is `ghcr.io/<owner>/<repository>`. The examples use `ghcr.io/salvia-vpn/salvia-vpn-client`.
+A release tag `vX.Y.Z` (the same tag as the GitHub release, the version in `app/pubspec.yaml`) publishes the image. The workflow is [`.github/workflows/docker.yml`](../.github/workflows/docker.yml). Tags are `X.Y.Z`, `vX.Y.Z`, `X.Y`, `X`, and `latest`, for `linux/amd64` and `linux/arm64`. The image name is `ghcr.io/<owner>/<repository>`. The examples use `ghcr.io/salisalvia/salviavpn`.
 
 ## Run
 
@@ -11,7 +11,7 @@ docker run -d --name salvia-vpn --restart unless-stopped \
   -p 10820:10820 \
   -p 127.0.0.1:10810:10810 -p 127.0.0.1:10810:10810/udp \
   -v salvia-vpn:/var/lib/salvia-vpn \
-  ghcr.io/salvia-vpn/salvia-vpn-client:latest
+  ghcr.io/salisalvia/salviavpn:latest
 
 docker logs salvia-vpn
 ```
