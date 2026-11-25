@@ -85,6 +85,7 @@ func TestLogsKeptForOneWeek(t *testing.T) {
 	defer f.Close()
 	want := []string{"salvia-vpn-2026-03-04.log", "salvia-vpn-2026-03-05.log", "salvia-vpn-2026-03-06.log", "salvia-vpn-2026-03-07.log",
 		"salvia-vpn-2026-03-08.log", "salvia-vpn-2026-03-09.log", "salvia-vpn-2026-03-10.log", "notes.txt"}
+	sort.Strings(want) // logNames sorts, and notes.txt now names before salvia-vpn-*.log
 	if got := logNames(t, dir); strings.Join(got, " ") != strings.Join(want, " ") {
 		t.Fatalf("files = %v", got)
 	}
@@ -94,7 +95,7 @@ func TestLogsKeptForOneWeek(t *testing.T) {
 		t.Fatal(err)
 	}
 	got := logNames(t, dir)
-	if len(got) != 8 || got[0] != "salvia-vpn-2026-03-05.log" || got[6] != "salvia-vpn-2026-03-11.log" {
+	if len(got) != 8 || got[0] != "notes.txt" || got[1] != "salvia-vpn-2026-03-05.log" || got[7] != "salvia-vpn-2026-03-11.log" {
 		t.Fatalf("after the eighth day started: %v", got)
 	}
 }
