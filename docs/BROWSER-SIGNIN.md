@@ -1,8 +1,8 @@
 # Browser sign-in, and moving an account to another device
 
 Mozilla's sign-in servers sit behind a security check that sometimes
-refuses sign-ins that do not come from a real browser. The Windows, macOS,
-and Android apps have a way around it: **sign in with the browser**, where the
+refuses sign-ins that do not come from a real browser. The Windows and
+Android apps have a way around it: **sign in with the browser**, where the
 account is added on Mozilla's own sign-in page inside the app. The
 terminal (`salvia-vpn-core -add-account`) and the web panel have no
 browser, so when the check refuses them, add the account in an app and
@@ -11,7 +11,7 @@ also need the browser sign-in.
 
 ## 1. Sign in with the browser in an app
 
-1. Install the SalviaVPN app on Windows, macOS, or Android
+1. Install the SalviaVPN app on Windows or Android
    ([downloads](https://github.com/SaliSalvia/SalviaVPN#downloads)).
 2. Open **Accounts** and change **Sign-in method** from the default,
    **Sign in directly**, to **Sign in with the browser**.
@@ -25,7 +25,7 @@ beside **Add account**, and choose **Save a backup**. The file is a zip
 of the app's data folder, in the same layout: the accounts and the
 settings, without the logs and the routing lists.
 
-**To another app or a web panel** (Windows, macOS, Linux, Android, or a
+**To another app or a web panel** (Windows, Linux, Android, or a
 server's panel): **Accounts → ⋮ → Import a backup**, and pick the file.
 An account that is there already takes the file's sign-in; the device
 keeps its own settings.
@@ -36,7 +36,6 @@ folder under `accounts` in the data folder:
 | System | Data folder |
 | --- | --- |
 | Windows | `user-data` next to the app, usually `%LOCALAPPDATA%\Programs\SalviaVPN\user-data` (installs from before the rename: `...\Firefox VPN Client\user-data`); a portable copy keeps it next to its exe |
-| macOS | `~/Library/Application Support/SalviaVPN` |
 | Linux | `~/.local/share/salvia-vpn`, or `$XDG_DATA_HOME/salvia-vpn`; a service started with `-data-dir` uses that folder |
 | Docker | `/var/lib/salvia-vpn` in the volume (`docker stop` before copying files in) |
 

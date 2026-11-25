@@ -3495,7 +3495,7 @@ void main() {
       await tester.tap(find.text('TUN'));
       await tester.pumpAndSettle();
       expect(service.installs, 1);
-      // The reason macOS' prompt shows, in the app's language.
+      // The reason the administrator prompt would show, in the app's language.
       expect(
         service.prompt,
         'SalviaVPN wants to install the service for TUN mode.',
@@ -3747,7 +3747,7 @@ void main() {
       expect(card, findsNothing);
 
       // Nothing to offer while the TUN is off, or where programs cannot
-      // skip it (macOS).
+      // skip it.
       settings.update(udpNotice: true);
       api.tun = {...api.tun!, 'state': 'starting'};
       await core.refresh();
@@ -3866,7 +3866,7 @@ void main() {
 
 /// The TUN service's program, without the system's: an install that works
 /// makes the core report it installed. It notes the reason it was given for
-/// macOS' prompt.
+/// the prompt.
 class FakeTunService implements TunService {
   FakeTunService(this.api, this.result);
 

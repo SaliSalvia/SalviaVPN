@@ -48,7 +48,7 @@ func Connected() bool {
 // Current names the networks this computer is connected to (their
 // interfaces, addresses, and gateways), "" for none, so a change can be
 // noticed by comparing two readings; ok is false where it cannot be read
-// (macOS, Android). It sends nothing.
+// (Android). It sends nothing.
 func Current() (name string, ok bool) { return current() }
 
 // RouteIdentity uses the default routes when available and local addresses

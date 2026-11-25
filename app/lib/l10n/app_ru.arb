@@ -439,7 +439,6 @@
   "modeTunHint": "Весь трафик {os} идёт через VPN.",
   "osWindows": "Windows",
   "osLinux": "Linux",
-  "osMacos": "macOS",
   "tunInstallWaiting": "Ожидание разрешения на установку службы TUN…",
   "tunInstallCancelled": "Режиму TUN один раз нужно разрешение администратора. Оно не было дано, поэтому режим не изменился.",
   "tunInstallFailed": "Не удалось установить службу TUN: {error}",

@@ -1571,9 +1571,6 @@ class AppLocalizationsId extends AppLocalizations {
   String get osLinux => 'Linux';
 
   @override
-  String get osMacos => 'macOS';
-
-  @override
   String get tunInstallWaiting => 'Menunggu izin untuk memasang layanan TUN…';
 
   @override

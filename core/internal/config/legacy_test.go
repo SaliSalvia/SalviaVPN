@@ -9,7 +9,7 @@ import (
 // The app's data folder of a version before 1.0.9 moves to the new name,
 // with its files, once: not over a new folder, and not for other folders.
 func TestTheOldDataFolderMovesToTheNewName(t *testing.T) {
-	for _, names := range [][2]string{{"Firefox VPN Client", "SalviaVPN"}, {"firefox-vpn-client", "salvia-vpn"}} {
+	for _, names := range [][2]string{{"firefox-vpn-client", "salvia-vpn"}} {
 		base := t.TempDir()
 		old, dir := filepath.Join(base, names[0]), filepath.Join(base, names[1])
 		os.MkdirAll(filepath.Join(old, "accounts"), 0o700)
@@ -30,7 +30,7 @@ func TestTheOldDataFolderMovesToTheNewName(t *testing.T) {
 	}
 	// user-data beside the app keeps its name.
 	base := t.TempDir()
-	os.MkdirAll(filepath.Join(base, "Firefox VPN Client"), 0o700)
+	os.MkdirAll(filepath.Join(base, "other-folder"), 0o700)
 	MoveLegacyDataDir(filepath.Join(base, DataDirName))
 	if _, err := os.Stat(filepath.Join(base, DataDirName)); !os.IsNotExist(err) {
 		t.Fatalf("user-data was made: %v", err)

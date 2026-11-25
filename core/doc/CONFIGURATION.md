@@ -57,7 +57,7 @@ Should Mozilla start enforcing the lock, the server of a chosen location refuses
 | `logs/salvia-vpn-YYYY-MM-DD.log` | `logx` (`dailyFile`) | Log lines, one file per local day; the last seven days are kept and the oldest is deleted when the eighth day starts; a day's file stops at 10 MiB | No (redacted) |
 | `routing/geosite.dat`, `routing/geoip.dat` | `routing.Download` | v2ray domain and network lists for routing, downloaded again every `routing.update_interval` | No |
 | `dashboard.key` | Dashboard | Random key that signs the dashboard's session cookies; deleting it signs every browser out | Yes (dashboard access) |
-| `update/` | [internal/update](../internal/update/update.go) | The desktop app's own update (Windows, Linux, macOS): `<version>/` (the release's signed `SHA256SUMS.txt`, its `.sig`, and the app's zip or tar.gz, once downloaded; kept until installed or replaced), and while one installs `new/` (the unpacked package; `new.part/` while it unpacks), `backup/` (the replaced files), `updater/` (the copy of the core running `-update`), `pending.json`, and `result.json`; the next start removes all but a newer downloaded version | No |
+| `update/` | [internal/update](../internal/update/update.go) | The desktop app's own update (Windows, Linux): `<version>/` (the release's signed `SHA256SUMS.txt`, its `.sig`, and the app's zip or tar.gz, once downloaded; kept until installed or replaced), and while one installs `new/` (the unpacked package; `new.part/` while it unpacks), `backup/` (the replaced files), `updater/` (the copy of the core running `-update`), `pending.json`, and `result.json`; the next start removes all but a newer downloaded version | No |
 | `.tray.lock` | Linux tray | Single-instance lock | No |
 
 All files are written atomically with owner-only permissions on POSIX (`securefile.WritePrivate`); on Windows they inherit the data folder's permissions, with no special access list.
@@ -128,7 +128,7 @@ The local proxy runs from the start (as far as the accounts allow), except in th
 | --- | --- |
 | `set` | While the proxy runs: `ProxyServer` = the local proxy address (the HTTP proxy on the SOCKS5 port), `ProxyOverride` = local and private addresses, `ProxyEnable` = 1, and no `AutoConfigURL` (a setup script would take precedence) |
 | `clear` (default) | A setting this program made is restored first; then, once when the user switches to `clear`: `ProxyEnable` = 0 and no `AutoConfigURL`, whoever set them; a proxy set by hand later stays. A tray or app mode that starts in `clear` only undoes a setting of this program's; another program's proxy (such as v2rayN's) stays |
-| `tun` | The desktop app's TUN mode (Windows, Linux, and macOS; `-app` only): the system's proxy setting is handled as for `clear`, and while the proxy runs the TUN service carries every app's traffic to the core ([OPERATOR.md](OPERATOR.md#tun-mode)). `POST /api/system-proxy` refuses it where the process does not run the TUN mode (`the TUN mode is not available here`) |
+| `tun` | The desktop app's TUN mode (Windows and Linux; `-app` only): the system's proxy setting is handled as for `clear`, and while the proxy runs the TUN service carries every app's traffic to the core ([OPERATOR.md](OPERATOR.md#tun-mode)). `POST /api/system-proxy` refuses it where the process does not run the TUN mode (`the TUN mode is not available here`) |
 
 Any other value is refused by `config.Validate` (`system_proxy.mode "…" is not supported; it must be "set", "clear", or "tun"`), and so by `POST /api/system-proxy` and the settings endpoint.
 

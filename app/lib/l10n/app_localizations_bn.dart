@@ -1568,9 +1568,6 @@ class AppLocalizationsBn extends AppLocalizations {
   String get osLinux => 'Linux';
 
   @override
-  String get osMacos => 'macOS';
-
-  @override
   String get tunInstallWaiting => 'TUN সার্ভিস ইনস্টল করার অনুমতির অপেক্ষা…';
 
   @override

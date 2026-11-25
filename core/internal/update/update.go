@@ -1,14 +1,13 @@
-// Package update installs new versions of the desktop app on Windows,
-// Linux, and macOS. The app finds a newer release in its manifest and asks its
+// Package update installs new versions of the desktop app on Windows and
+// Linux. The app finds a newer release in its manifest and asks its
 // core to download it: the core fetches the release's SHA256SUMS.txt and
 // its signature (SHA256SUMS.txt.sig, Ed25519, checked against the key built
 // into the core, internal/signing), then the release's zip (Windows) or
-// tar.gz (Linux, for the processor; macOS, the app's bundle), whose SHA-256
+// tar.gz (Linux, for the processor), whose SHA-256
 // must be the one in the signed list. Through the proxy while it is on, as
 // GitHub may be blocked; directly otherwise. On Linux the app lives in the
-// user's folder (the desktop install of install.sh), and on macOS in a
-// folder the user may change (Applications, for an administrator), so no
-// administrator is asked.
+// user's folder (the desktop install of install.sh), so no administrator is
+// asked.
 //
 // To install, the core unpacks the package into the update folder, copies
 // itself there, and starts the copy with -update (Apply); the app and the
@@ -17,8 +16,7 @@
 // files and folders replaces the one of the same name, all by renames on
 // one drive, and the replaced ones are kept aside to be put back on any
 // failure (a file a virus scanner holds, say). The data folder (user-data)
-// and anything else in the app's folder stay; on macOS the app's folder is
-// its bundle, whose Contents is replaced. For a copy that Setup
+// and anything else in the app's folder stay. For a copy that Setup
 // installed, it also sets the version in Windows' list of installed apps;
 // the uninstaller removes the app's files whichever version put them there
 // ([UninstallDelete] in app/windows/installer/salvia-vpn.iss). The new
@@ -98,13 +96,12 @@ var windowsPackage = appPackage{
 	unpack: unzip,
 }
 
-// thePackage is this system's: the Windows zip, or the Linux or macOS
-// archive (untar.go; process_linux.go and process_darwin.go set it).
+// thePackage is this system's: the Windows zip, or the Linux archive
+// (untar.go; process_linux.go sets it).
 var thePackage = windowsPackage
 
 // AppDir is the app's folder for the core at exe: the folder that holds
-// the package's core (core/ on Windows and Linux, Contents/MacOS in the
-// macOS bundle, whose folder is the bundle).
+// the package's core (core/).
 func AppDir(exe string) string {
 	dir := exe
 	for range strings.Split(thePackage.core, "/") {
@@ -181,7 +178,7 @@ type pending struct {
 
 // errNotSupported: updates install by themselves on these systems only
 // (platformSupported); elsewhere the app offers the download.
-var errNotSupported = errors.New("updates install by themselves on Windows, Linux, and macOS only")
+var errNotSupported = errors.New("updates install by themselves on Windows and Linux only")
 
 // errUpdateRunning: another update that uses the same data folder runs;
 // it starts the app again when it is done.
@@ -209,8 +206,7 @@ type Options struct {
 	// DataDir is the app's data folder (user-data); the update keeps its
 	// files in its "update" folder.
 	DataDir string
-	// AppDir is the app's folder (AppDir): the app and core/, or the
-	// macOS app's bundle.
+	// AppDir is the app's folder (AppDir): the app and core/.
 	AppDir string
 	// Current is this version (version.Current).
 	Current string
@@ -232,7 +228,7 @@ type Manager struct {
 }
 
 // Supported reports whether this core can update the app it belongs to: on
-// Windows, Linux, or macOS, with an update key built in, a version number,
+// Windows or Linux, with an update key built in, a version number,
 // the app beside it, and a data folder where the update's renames work
 // (dataDirOK: on Windows the app's own user-data, elsewhere one on the
 // app's drive, with an app the user may change). It returns "" when it can,

@@ -439,7 +439,6 @@
   "modeTunHint": "{os}-এর সব ট্রাফিক VPN দিয়ে যায়।",
   "osWindows": "Windows",
   "osLinux": "Linux",
-  "osMacos": "macOS",
   "tunInstallWaiting": "TUN সার্ভিস ইনস্টল করার অনুমতির অপেক্ষা…",
   "tunInstallCancelled": "TUN মোডের জন্য একবার অ্যাডমিনিস্ট্রেটর অনুমতি লাগে। অনুমতি দেওয়া হয়নি, তাই মোড বদলায়নি।",
   "tunInstallFailed": "TUN সার্ভিস ইনস্টল করা যায়নি: {error}",

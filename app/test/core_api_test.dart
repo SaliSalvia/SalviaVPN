@@ -317,10 +317,6 @@ void main() {
       expect(dir(), r'D:\dist\SalviaVPN-1.3\user-data');
       expect(dir(portable: true), r'D:\dist\SalviaVPN-1.3\user-data');
       expect(
-        dir(os: 'macos', env: {'HOME': '/Users/u'}),
-        '/Users/u/Library/Application Support/SalviaVPN',
-      );
-      expect(
         dir(os: 'linux', env: {'HOME': '/home/u'}),
         '/home/u/.local/share/salvia-vpn',
       );

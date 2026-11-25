@@ -68,7 +68,7 @@ abstract final class CoreLocator {
   static const defaultListen = '127.0.0.1:10820';
   static const _defaultPort = 10820;
 
-  /// The folder name under the per-user data location (macOS).
+  /// The folder name under the per-user data location.
   static const appFolder = 'SalviaVPN';
 
   /// The file next to the app that makes it portable: its data stays in
@@ -143,7 +143,6 @@ abstract final class CoreLocator {
     if (portable || os == 'windows') return '$exeDir${sep}user-data';
     final home = env['HOME'] ?? env['USERPROFILE'] ?? exeDir;
     return switch (os) {
-      'macos' => '$home/Library/Application Support/$appFolder',
       _ => '${env['XDG_DATA_HOME'] ?? '$home/.local/share'}/$linuxFolder',
     };
   }

@@ -1,4 +1,4 @@
-//go:build darwin || (linux && !android)
+//go:build linux && !android
 
 package egress
 

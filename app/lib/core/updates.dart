@@ -19,7 +19,7 @@ const _apkAbis = {'arm64-v8a', 'armeabi-v7a', 'x86_64'};
 /// app, which the browser downloads at once (no page to choose from): on a
 /// phone the APK for its processor; on Windows the installer for an
 /// installed copy (its uninstaller is beside it) and the zip for a portable
-/// one; on macOS the disk image; on Linux the archive for the processor.
+/// one; on Linux the archive for the processor.
 Future<String> downloadUrl(
   Release release, {
   String? os,
@@ -40,8 +40,6 @@ Future<String> downloadUrl(
             installed ??
             File('$dir${Platform.pathSeparator}unins000.exe').existsSync();
         key = setup ? 'installer-x64' : 'archive-x64';
-      case 'macos':
-        key = 'installer';
       default:
         key = archiveKey(system, platformVersion ?? Platform.version);
     }
@@ -60,8 +58,6 @@ Future<String> downloadUrl(
     final dir = File(Platform.resolvedExecutable).parent.path;
     final installed = File('$dir${Platform.pathSeparator}unins000.exe');
     name = windowsName(installed: installed.existsSync());
-  } else if (Platform.isMacOS) {
-    name = 'macOS.dmg';
   } else if (Platform.isLinux) {
     name = linuxName(Platform.version);
   } else {
@@ -109,7 +105,7 @@ String? updateProxy(CoreStatus? status) {
 /// once, whenever asked. Android's daily check uses stable, while
 /// About asks for latest without delaying its next daily check.
 ///
-/// The desktop apps (Windows, Linux, macOS) install it themselves (their
+/// The desktop apps (Windows and Linux) install it themselves (their
 /// core: core/internal/update): Update downloads it through the VPN while it
 /// runs, and the app closes and opens again as the new version. With
 /// automatic updates (on unless turned off), a version found downloads in

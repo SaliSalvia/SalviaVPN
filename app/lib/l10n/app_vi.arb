@@ -439,7 +439,6 @@
   "modeTunHint": "Toàn bộ lưu lượng của {os} đi qua VPN.",
   "osWindows": "Windows",
   "osLinux": "Linux",
-  "osMacos": "macOS",
   "tunInstallWaiting": "Đang chờ cho phép cài đặt dịch vụ TUN…",
   "tunInstallCancelled": "Chế độ TUN cần quyền quản trị một lần. Quyền không được cấp nên chế độ không thay đổi.",
   "tunInstallFailed": "Không thể cài đặt dịch vụ TUN: {error}",

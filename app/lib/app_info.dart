@@ -53,7 +53,6 @@ String linuxName(String platformVersion) =>
 String? releaseFilePart(String os) => switch (os) {
   'windows' => 'Windows-x64.zip',
   'linux' => linuxName(Platform.version),
-  'macos' => 'macOS.tar.gz',
   'android' => 'Android-universal.apk',
   _ => null,
 };
@@ -251,7 +250,6 @@ Future<Release?> _latestRelease(
           arch: 'Android-$arch.apk',
       },
       'linux' => {'amd64': 'Linux-amd64.tar.gz', 'arm64': 'Linux-arm64.tar.gz'},
-      'macos' => {'archive': 'macOS.tar.gz', 'installer': 'macOS.dmg'},
       _ => <String, String>{},
     };
     final downloads = <String, Object?>{};

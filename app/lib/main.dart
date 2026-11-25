@@ -36,7 +36,7 @@ Future<void> main(List<String> args) async {
     },
     retryStoppedCore: () async => process.retryNow(),
     // The TUN mode's service, beside the core.
-    tunService: Platform.isWindows || Platform.isLinux || Platform.isMacOS
+    tunService: Platform.isWindows || Platform.isLinux
         ? TunService.besideCore(process.executable)
         : null,
   )..start();
@@ -49,7 +49,7 @@ Future<void> main(List<String> args) async {
   final navigatorKey = GlobalKey<NavigatorState>();
   // Before the desktop's: a version installed at the start goes first.
   Updates.start(core, settings, args: args);
-  if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+  if (Platform.isWindows || Platform.isLinux) {
     DesktopIntegration(
       core: core,
       settings: settings,

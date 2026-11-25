@@ -1,4 +1,4 @@
-//go:build windows || linux || darwin
+//go:build windows || linux
 
 package main
 
@@ -10,22 +10,21 @@ import (
 	"github.com/salvia-vpn/salvia-vpn-client/core/internal/tunservice"
 )
 
-// run runs a command. The init system (the service manager, systemd,
-// launchd) starts "service"; the elevated copy of an install or uninstall
+// run runs a command. The init system (systemd, the Windows service
+// manager) starts "service"; the elevated copy of an install or uninstall
 // runs "install-as-admin" or "uninstall-as-admin".
 func run(command string, args []string) int {
 	switch command {
 	case "install", "uninstall":
 		fs := flag.NewFlagSet(command, flag.ContinueOnError)
-		prompt := fs.String("prompt", "", "the reason the administrator prompt shows (macOS)")
 		if fs.Parse(args) != nil {
 			return exitUsage
 		}
 		var err error
 		if command == "install" {
-			err = tunservice.InstallForUser(*prompt)
+			err = tunservice.InstallForUser("")
 		} else {
-			err = tunservice.UninstallForUser(*prompt)
+			err = tunservice.UninstallForUser("")
 		}
 		if errors.Is(err, tunservice.ErrCancelled) {
 			return exitCancelled

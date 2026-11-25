@@ -71,17 +71,3 @@ func TestABuildWithoutAKeyTakesNoUpdates(t *testing.T) {
 		t.Fatalf("got %v", err)
 	}
 }
-
-func TestTheSignatureOfAMacAppsExecutableIsInItsResources(t *testing.T) {
-	app := filepath.Join("Applications", "SalviaVPN.app", "Contents")
-	for exe, want := range map[string]string{
-		filepath.Join(app, "MacOS", "salvia-vpn-tun"): filepath.Join(app, "Resources", "salvia-vpn-tun.sig"),
-		filepath.Join("opt", "salvia-vpn-tun", "x"):   filepath.Join("opt", "salvia-vpn-tun", "x.sig"),
-		filepath.Join("core", "salvia-vpn-tun.exe"):   filepath.Join("core", "salvia-vpn-tun.exe.sig"),
-		filepath.Join("MacOS", "salvia-vpn-tun"):      filepath.Join("MacOS", "salvia-vpn-tun.sig"),
-	} {
-		if got := SignatureFile(exe); got != want {
-			t.Errorf("SignatureFile(%s) = %s, want %s", exe, got, want)
-		}
-	}
-}

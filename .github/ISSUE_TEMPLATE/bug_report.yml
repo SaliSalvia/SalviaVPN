@@ -27,7 +27,6 @@ body:
         - Android
         - Android TV
         - Windows
-        - macOS
         - Linux
         - Other
     validations:

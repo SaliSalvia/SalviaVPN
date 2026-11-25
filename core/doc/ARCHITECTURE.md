@@ -41,10 +41,10 @@ internal/tun/               what the VPNs share: FakeDNS, the addresses that lea
                             VPN runs app/android/hev-socks5-tunnel, the app's Tun2Socks.kt)
 internal/tunapi/            the core-to-TUN-service protocol: JSON lines over a channel only the users
                             who installed the service can use (a named pipe on Windows, a Unix
-                            socket on Linux and macOS)
+                            socket on Linux)
 internal/tunservice/        the TUN service: serves tunapi, one TUN session at a time, signed
                             self-update, install and removal (Windows service, systemd, launchd),
-                            DNS kept in the TUN (wfp on Windows, macOS' DNS settings), the
+                            DNS kept in the TUN (WFP on Windows, routing rules on Linux), the
                             programs that bypass the VPN (each connection's program; their
                             TCP and UDP sent directly), other UDP to the core on an association
 internal/tunstack/          sing-tun (the only importer): the adapter, routes (Linux: their own
@@ -102,7 +102,7 @@ Each package's tests are white-box tests next to its files. A package exports on
 | Terminal status screen | [console_ui.go](../internal/desktop/console_ui.go) | `desktop.RunConsole`, `consoleBackend` (`daemonBackend`, `apiBackend`), `normalizeKey`, `fitWidth` | `desktop/console_ui_test.go` |
 | Version | [version.go](../internal/version/version.go) | `version.Current`, `version.Newer` | `version/version_test.go` |
 | Tray icon | [tray.go](../internal/desktop/tray.go) (Windows, Linux), [trayicon.go](../internal/desktop/trayicon.go), [tray_other.go](../internal/desktop/tray_other.go) | `desktop.RunTray`, `trayApp.refresh`, `trayApp.startOwn`, `trayIcon` (the icons in `internal/desktop/tray`, made by `app/tool/app_icons.py`) | `desktop/trayicon_test.go` |
-| TUN mode, core side | [desktop/tun.go](../internal/desktop/tun.go), [service/tun.go](../internal/service/tun.go), [egress](../internal/egress/egress.go) | `tunSync` (`connect`, `start`, `stop`, `refreshService`, `syncPrograms`), `Daemon.OpenTunListener`, `TunWanted`, `SetTunStatus`, `TunPrograms`, `NoteRefusedUDP`, `egress.SetTun`, `egress.Dialer`, `egress.Control`, `egress.Supported` | `desktop/tun_test.go`, `service/tun_test.go`, `service/tunallow_test.go`, `egress/egress_windows_test.go`, `egress_linux_test.go`, `egress_darwin_test.go` |
+| TUN mode, core side | [desktop/tun.go](../internal/desktop/tun.go), [service/tun.go](../internal/service/tun.go), [egress](../internal/egress/egress.go) | `tunSync` (`connect`, `start`, `stop`, `refreshService`, `syncPrograms`), `Daemon.OpenTunListener`, `TunWanted`, `SetTunStatus`, `TunPrograms`, `NoteRefusedUDP`, `egress.SetTun`, `egress.Dialer`, `egress.Control`, `egress.Supported` | `desktop/tun_test.go`, `service/tun_test.go`, `service/tunallow_test.go`, `egress/egress_windows_test.go`, `egress_linux_test.go` |
 | TUN service | [cmd/salvia-vpn-tun](../cmd/salvia-vpn-tun/main.go), [tunservice](../internal/tunservice/server.go), [tunapi](../internal/tunapi/tunapi.go), [tunstack](../internal/tunstack/tunstack.go), [wfp](../internal/wfp/wfp_windows.go), [tun/fakedns.go](../internal/tun/fakedns.go) | `tunservice.Server`, `session`, `readSigned`, `applyUpdate`, `Install` (`register`: the Windows service, the systemd unit, the launchd job), `macDNS`; the programs that bypass the VPN: `session.takeUDP`, `directTCP`, `relay`, `ownerPath` ([owner_windows.go](../internal/tunservice/owner_windows.go), [owner_linux.go](../internal/tunservice/owner_linux.go)), `callLike`; `tunapi.Dial`, `Listen`, `Allowed`, `Hello`; `tunstack.Open`, `CleanupStale`, `PacketFlow`, `ResetFlows`; `wfp.Start`; `tun.NewDesktopFakeDNS` | `tunservice/*_test.go` (`programs_test.go`, `owner_*_test.go`; a real TUN: `e2e_test.go`, tags `e2e with_gvisor`, as root), `tunapi/*_test.go`, `tunstack_test.go` (tag `with_gvisor`), `wfp_windows_test.go`, `tun/fakedns_test.go` |
 | The app's updates | [update](../internal/update/update.go), [apply.go](../internal/update/apply.go), [service/update.go](../internal/service/update.go), [signing](../internal/signing/signing.go) | `update.Manager` (`Download`, `Install`), `update.Apply` (`swap`, `setInstalledVersion`), `update.Supported`, `Daemon.UpdateTransports`, `signing.Verify` | `update/*_test.go`, `service/update_test.go`, `signing_test.go` |
 | Desktop app mode (`-app`) and code shared with the tray | [app.go](../internal/desktop/app.go), [host.go](../internal/desktop/host.go), [endsession_windows.go](../internal/desktop/endsession_windows.go) | `desktop.RunApp`, `runHosted`, `watchParent`, `stdinIsPipe`, `watchEndSession` (the hidden window for `WM_ENDSESSION`), `ErrAlreadyRunning`, `ReportAppError` (the `app-error:` line and exit status), `newHostedDaemon`, `pollStatus`, `systemProxySync.follow`, `Daemon.RequireDashboard` | `desktop/app_test.go`, `desktop/endsession_windows_test.go`, `cmd/salvia-vpn-core/main_test.go`, `TestRequireDashboardRefusesDisabledDashboard` |
@@ -160,7 +160,7 @@ These optional interfaces matter when adding an implementation: missing token up
 
 - Keep upstream connection logic out of the internal control-plane packages.
 - The tray and the status screen's client mode never touch accounts or the engine directly; it uses the dashboard API (`service.Client`) so it works the same against a service in another process.
-- Keep platform code behind build tags (`*_windows.go`, `*_other.go`, tray for `windows || linux`) so Linux and macOS builds need no CGO.
+- Keep platform code behind build tags (`*_windows.go`, `*_other.go`, tray for `windows || linux`) so Linux builds need no CGO.
 - Keep account selection and refresh decisions out of byte-copy loops; tunnels only count bytes (`noteTraffic`).
 - Keep SOCKS target failure separate from session-wide failure classification.
 - Persist configuration and account metadata without persisting the ProxyPass; keep credentials only in `accounts/<id>/credentials.json`.

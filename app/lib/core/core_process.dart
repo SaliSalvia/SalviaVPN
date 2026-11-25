@@ -50,14 +50,13 @@ class CoreProcess {
 
   /// The default executable, or `--core=<path>`: in the `core` folder
   /// beside the app (Windows, Linux), so the app is the only program there;
-  /// beside the app's executable inside the bundle on macOS.
+  /// beside the app's executable.
   static String executableFrom(List<String> args) {
     for (final a in args) {
       if (a.startsWith('--core=')) return a.substring('--core='.length);
     }
     final sep = Platform.pathSeparator;
     final dir = File(Platform.resolvedExecutable).parent.path;
-    if (Platform.isMacOS) return '$dir${sep}salvia-vpn-core';
     final name = Platform.isWindows
         ? 'salvia-vpn-core.exe'
         : 'salvia-vpn-core';

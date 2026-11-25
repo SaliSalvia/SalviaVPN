@@ -1570,9 +1570,6 @@ class AppLocalizationsAz extends AppLocalizations {
   String get osLinux => 'Linux';
 
   @override
-  String get osMacos => 'macOS';
-
-  @override
   String get tunInstallWaiting =>
       'TUN xidmətini quraşdırmaq üçün icazə gözlənilir…';
 

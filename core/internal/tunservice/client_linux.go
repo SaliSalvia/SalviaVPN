@@ -17,7 +17,7 @@ const (
 
 // runElevated runs this executable with args as root through pkexec,
 // whose polkit prompt asks for the permission, and waits for it. polkit's
-// prompt names the program, so prompt (macOS') is not used.
+// prompt names the program, so prompt is not used.
 func runElevated(_ string, args ...string) error {
 	self, err := os.Executable()
 	if err != nil {

@@ -24,11 +24,11 @@
 
 **SalviaVPN** — бесплатный VPN с открытым исходным кодом, который работает с аккаунтом Firefox (Firefox Account). Он передаёт ваш интернет-трафик через серверы Mozilla, на инфраструктуре **Fastly**, по защищённым туннелям **HTTP/2 и HTTP/3**.
 
-Для **Android, Windows, macOS и Linux**; полностью бесплатно, без рекламы.
+Для **Android, Windows и Linux**; полностью бесплатно, без рекламы.
 
 ## 🚀 Основные возможности
 
-✈️ Кроссплатформенность: Android, Windows, macOS и Linux
+✈️ Кроссплатформенность: Android, Windows и Linux
 
 📺 Android TV: управление с пульта
 
@@ -64,7 +64,6 @@
 <tr><td>Android</td><td><a href="https://github.com/SaliSalvia/SalviaVPN/releases/latest/download/SalviaVPN-Android-universal.apk"><img src="https://img.shields.io/badge/APK-Universal-1a7f37?logo=android&logoColor=white" alt="APK Universal"></a><br><a href="https://github.com/SaliSalvia/SalviaVPN/releases/latest/download/SalviaVPN-Android-arm64-v8a.apk"><img src="https://img.shields.io/badge/APK-ARMv8-2da44e?logo=android&logoColor=white" alt="APK ARMv8"></a><br><a href="https://github.com/SaliSalvia/SalviaVPN/releases/latest/download/SalviaVPN-Android-armeabi-v7a.apk"><img src="https://img.shields.io/badge/APK-ARMv7-4ac26b?logo=android&logoColor=white" alt="APK ARMv7"></a><br><a href="https://github.com/SaliSalvia/SalviaVPN/releases/latest/download/SalviaVPN-Android-x86_64.apk"><img src="https://img.shields.io/badge/APK-x64-6fdd8b?logo=android&logoColor=white" alt="APK x64"></a></td></tr>
 <tr><td>Android TV</td><td><a href="https://github.com/SaliSalvia/SalviaVPN/releases/latest/download/SalviaVPN-Android-universal.apk"><img src="https://img.shields.io/badge/APK-Universal-1a7f37?logo=android&logoColor=white" alt="APK Universal"></a></td></tr>
 <tr><td>Windows</td><td><a href="https://github.com/SaliSalvia/SalviaVPN/releases/latest/download/SalviaVPN-Windows-Setup-x64.exe"><img src="https://img.shields.io/badge/Setup-x64-0550ae?logo=windows&logoColor=white" alt="Setup x64"></a><br><a href="https://github.com/SaliSalvia/SalviaVPN/releases/latest/download/SalviaVPN-Windows-x64.zip"><img src="https://img.shields.io/badge/Portable-x64-0969da" alt="Portable x64"></a></td></tr>
-<tr><td>macOS</td><td><a href="https://github.com/SaliSalvia/SalviaVPN/releases/latest/download/SalviaVPN-macOS.dmg"><img src="https://img.shields.io/badge/DMG-Universal-24292f?logo=apple&logoColor=white" alt="DMG Universal"></a></td></tr>
 <tr><td rowspan="2">Linux</td><td><a href="https://github.com/SaliSalvia/SalviaVPN/releases/latest/download/SalviaVPN-Linux-amd64.tar.gz"><img src="https://img.shields.io/badge/App-amd64-e36209?logo=linux&logoColor=white" alt="App amd64"></a><br><a href="https://github.com/SaliSalvia/SalviaVPN/releases/latest/download/SalviaVPN-Linux-arm64.tar.gz"><img src="https://img.shields.io/badge/App-ARM64-e36209?logo=linux&logoColor=white" alt="App ARM64"></a></td></tr>
 <tr><td><a href="https://github.com/SaliSalvia/SalviaVPN/releases/latest/download/salvia-vpn-core-linux-amd64.tar.gz"><img src="https://img.shields.io/badge/Core-amd64-f0883e?logo=linux&logoColor=white" alt="Core amd64"></a><br><a href="https://github.com/SaliSalvia/SalviaVPN/releases/latest/download/salvia-vpn-core-linux-arm64.tar.gz"><img src="https://img.shields.io/badge/Core-ARM64-f6a35e?logo=linux&logoColor=white" alt="Core ARM64"></a></td></tr>
 </tbody>
@@ -76,7 +75,7 @@
 - **Windows:** **Setup** — обычный установщик; **Portable** работает без установки из любой папки.
 - **Linux:** **App** — для Linux с рабочим столом (с графической средой); **Core** — для сервера (без графической среды, с веб-панелью).
 
-## 💻 Установка и обновление в Linux и macOS
+## 💻 Установка и обновление в Linux
 
 > Пользователям Windows и Android этот раздел не нужен: возьмите установочный файл из таблицы «Скачать» выше.
 

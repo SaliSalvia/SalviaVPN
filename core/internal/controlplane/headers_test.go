@@ -9,7 +9,6 @@ import (
 func TestFirefoxPlatform(t *testing.T) {
 	for _, tc := range []struct{ goos, goarch, want string }{
 		{"windows", "amd64", "Windows NT 10.0; Win64; x64"},
-		{"darwin", "arm64", "Macintosh; Intel Mac OS X 10.15"},
 		{"linux", "amd64", "X11; Linux x86_64"},
 		{"linux", "arm64", "X11; Linux aarch64"},
 		{"android", "arm64", "Windows NT 10.0; Win64; x64"},

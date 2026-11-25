@@ -1,4 +1,4 @@
-//go:build linux || darwin
+//go:build linux
 
 package update
 
@@ -14,12 +14,10 @@ import (
 const platformSupported = true
 
 // dataDirOK: the data folder (~/.local/share/salvia-vpn on Linux,
-// ~/Library/Application Support/SalviaVPN on macOS) is on the
+// the user's data folder) is on the
 // app's drive, so the update's renames work, and outside the app (a
 // portable copy keeps it inside, where the swap would move it along); the
-// user may change the app's folder (not a copy that root installed, nor a
-// macOS app opened from its disk image or from where macOS moved it to open
-// it); and the core does not run as root, which must not install from a
+// user may change the app's folder (not a copy that root installed); and the core does not run as root, which must not install from a
 // folder that the user can change meanwhile.
 func dataDirOK(appDir, dataDir string) string {
 	if os.Geteuid() == 0 {

@@ -47,9 +47,8 @@ class TrayItem {
 }
 
 /// The native side of the window's close button and the tray icon
-/// (windows/runner/desktop_bridge.cpp, linux/runner/desktop_bridge.cc, and
-/// DesktopBridge in macos/Runner/MainFlutterWindow.swift; channel
-/// "app/desktop").
+/// (windows/runner/desktop_bridge.cpp and linux/runner/desktop_bridge.cc;
+/// channel "app/desktop").
 class DesktopBridge {
   DesktopBridge({
     required this.onCloseRequested,
@@ -98,7 +97,7 @@ class DesktopBridge {
       _channel.invokeMethod('notify', {'title': title, 'body': body});
 
   /// Starts [command] at sign-in (the current user's Run key; on Linux, an
-  /// XDG autostart entry; on macOS, a LaunchAgent for this app), or not.
+  /// XDG autostart entry), or not.
   Future<void> setAutostart({required bool enabled, required String command}) =>
       _channel.invokeMethod('setAutostart', {
         'enabled': enabled,
@@ -106,8 +105,7 @@ class DesktopBridge {
       });
 
   /// Sends the app's web views through the proxy at [address]
-  /// ("127.0.0.1:port"), or straight out again when it is null. macOS only
-  /// (WKWebsiteDataStore.proxyConfigurations, macOS 14 and later); false
+  /// ("127.0.0.1:port"), or straight out again when it is null.
   /// when the system cannot, and the views then connect by themselves.
   static Future<bool> setWebViewProxy(String? address) async =>
       await _channel.invokeMethod<bool>('setWebViewProxy', {

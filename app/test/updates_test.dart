@@ -178,7 +178,7 @@ void main() {
         final release = await checkForUpdate(
           server: primary,
           updatesMirror: '$mirror/updates.json',
-          os: 'macos',
+          os: 'linux',
           current: '1.0.4',
         );
         expect(release?.version, '1.0.6');
@@ -242,7 +242,7 @@ void main() {
         null,
         'not JSON',
         '{"windows": "1.0.6"}',
-        '{"macos": "v1.0.6"}',
+        '{"linux": "v1.0.6"}',
       ]) {
         final url = await serve({
           if (file != null) 'GET /updates.json': (200, file),
@@ -250,7 +250,7 @@ void main() {
         });
         final release = await checkForUpdate(
           server: url,
-          os: 'macos',
+          os: 'linux',
           current: '1.0.4',
         );
         expect(release?.version, '1.0.6', reason: '$file');

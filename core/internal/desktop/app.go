@@ -156,8 +156,8 @@ func RunApp(paths service.DataPaths, verbose bool) error {
 	if tunOK && listsPrograms {
 		d.RunningPrograms = runningPrograms
 	}
-	// The app's own updates (Windows, Linux, macOS): this core is in core/
-	// of the app's folder, or in the macOS bundle's Contents/MacOS. After
+	// The app's own updates (Windows and Linux): this core is in core/ of
+	// the app's folder. After
 	// an update, an older TUN service updates itself.
 	refreshTun := false
 	if exe, err := os.Executable(); err == nil {

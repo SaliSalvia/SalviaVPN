@@ -1,4 +1,4 @@
-//go:build !windows && !darwin && (!linux || android)
+//go:build !windows && (!linux || android)
 
 package egress
 
@@ -8,7 +8,7 @@ import (
 	"syscall"
 )
 
-// The desktop TUN mode runs on Windows, Linux, and macOS; SetTun is never
+// The desktop TUN mode runs on Windows and Linux; SetTun is never
 // called here (Android's VPN keeps the core's sockets out of it itself).
 
 var errNotHere = errors.New("the TUN mode is not available on this system")

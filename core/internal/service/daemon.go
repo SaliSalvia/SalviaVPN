@@ -605,7 +605,7 @@ var (
 // network (Wi-Fi to Ethernet, another Wi-Fi, an address renewed), none, or
 // one back, so the proxy reconnects at once instead of finding out
 // connection by connection. The phone reports its own (NetworkChanged), and
-// where the networks cannot be read (macOS) nothing is watched.
+// where the networks cannot be read nothing is watched.
 func (d *Daemon) watchNetwork() {
 	if runtime.GOOS == "android" {
 		return

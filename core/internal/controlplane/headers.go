@@ -40,13 +40,11 @@ func FirefoxUserAgent() string {
 }
 
 // firefoxPlatform is the system part of Firefox's User-Agent: Firefox
-// reports Windows 11 as NT 10.0 and every Mac as Intel, 10.15.
+// reports Windows 11 as NT 10.0.
 func firefoxPlatform(goos, goarch string) string {
 	switch goos {
 	case "windows", "android":
 		return "Windows NT 10.0; Win64; x64"
-	case "darwin":
-		return "Macintosh; Intel Mac OS X 10.15"
 	}
 	if goarch == "arm64" {
 		return "X11; Linux aarch64"

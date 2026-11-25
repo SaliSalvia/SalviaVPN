@@ -439,7 +439,6 @@
   "modeTunHint": "{os} 的所有流量都會經過 VPN。",
   "osWindows": "Windows",
   "osLinux": "Linux",
-  "osMacos": "macOS",
   "tunInstallWaiting": "正在等待安裝 TUN 服務的許可…",
   "tunInstallCancelled": "TUN 模式需要一次系統管理員權限。未取得權限，模式未變更。",
   "tunInstallFailed": "無法安裝 TUN 服務：{error}",

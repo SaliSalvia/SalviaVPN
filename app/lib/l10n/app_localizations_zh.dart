@@ -1510,9 +1510,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get osLinux => 'Linux';
 
   @override
-  String get osMacos => 'macOS';
-
-  @override
   String get tunInstallWaiting => '正在等待安装 TUN 服务的许可…';
 
   @override
@@ -3215,9 +3212,6 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get osLinux => 'Linux';
-
-  @override
-  String get osMacos => 'macOS';
 
   @override
   String get tunInstallWaiting => '正在等待安裝 TUN 服務的許可…';

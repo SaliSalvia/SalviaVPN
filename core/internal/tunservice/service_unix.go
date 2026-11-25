@@ -1,4 +1,4 @@
-//go:build linux || darwin
+//go:build linux
 
 package tunservice
 
@@ -26,7 +26,7 @@ import (
 // (InstallDir): it runs as root, so nobody else may replace its file. The
 // app carries the same executable beside its core, and installs it from
 // there. The init system (systemd, launchd; service_linux.go,
-// service_darwin.go) starts it at boot and again whenever it ends but by
+// starts it at boot and again whenever it ends but by
 // an uninstall, which is how an update's new file starts.
 const (
 	newExeName = tunapi.ExeName + ".new"
@@ -35,7 +35,7 @@ const (
 )
 
 // stateDir is the service's folder, where the filters note what they
-// changed (filters_darwin.go).
+// changed.
 var stateDir = InstallDir
 
 // RunService runs this executable as the service until the init system
@@ -53,7 +53,6 @@ func RunService() error {
 	logx.EnableFile(filepath.Join(dir, "logs"), false)
 	_ = os.Remove(filepath.Join(dir, newExeName))
 	// What a TUN that ended with a crash left: its rules on Linux, the DNS
-	// settings on macOS.
 	if err := tunstack.CleanupStale(); err != nil {
 		logx.Warn("removing the rules an earlier TUN left failed err=%s", logx.Err(err))
 	}

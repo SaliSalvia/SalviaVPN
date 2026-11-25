@@ -590,7 +590,7 @@ class _DesktopHome extends StatelessWidget {
           ),
         const SizedBox(height: 8),
         Text(
-          // Windows names itself; Linux and macOS say "the system".
+          // Windows names itself; Linux says "the system".
           connectionModeHint(
             l,
             status,
@@ -2667,7 +2667,7 @@ class _NoticesState extends State<_Notices> {
   }
 }
 
-/// A newer version on GitHub. The desktop apps (Windows, Linux, macOS)
+/// A newer version on GitHub. The desktop apps (Windows and Linux)
 /// install it themselves: Update downloads it (its progress shows here),
 /// then the app closes and opens again as the new version; on Android it
 /// downloads here and Update opens Android's installer (or, with Update in

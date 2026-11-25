@@ -68,10 +68,6 @@ Map<String, Object?> compactManifest(String base) {
       'amd64': 'SalviaVPN-Linux-amd64.tar.gz',
       'arm64': 'SalviaVPN-Linux-arm64.tar.gz',
     },
-    'macos': {
-      'installer': 'SalviaVPN-macOS.dmg',
-      'archive': 'SalviaVPN-macOS.tar.gz',
-    },
   };
   Map<String, Object?> platform(String os, String version) => {
     'version': version,
@@ -159,7 +155,6 @@ void main() {
         for (final file in [
           'SalviaVPN-Windows-x64.zip',
           'SalviaVPN-Linux-amd64.tar.gz',
-          'SalviaVPN-macOS.tar.gz',
           'SalviaVPN-Android-universal.apk',
         ])
           'HEAD /v1.0.15/$file': (200, ''),
@@ -170,7 +165,7 @@ void main() {
       final server = await fixture({
         'GET /updates.json': (200, jsonEncode(manifest)),
       }, requests: requests);
-      for (final os in ['android', 'windows', 'linux', 'macos']) {
+      for (final os in ['android', 'windows', 'linux']) {
         List<Announcement>? announcements;
         final release = await checkForUpdate(
           server: server,
@@ -191,7 +186,7 @@ void main() {
         await downloadUrl(latest, os: 'android', abi: 'arm64-v8a'),
         '$assets/v1.0.16/SalviaVPN-Android-arm64-v8a.apk',
       );
-      expect(requests, List.filled(5, 'GET /updates.json'));
+      expect(requests, List.filled(4, 'GET /updates.json'));
     },
   );
 
@@ -682,7 +677,6 @@ void main() {
       )!['file'],
       'package-arm64.zip',
     );
-    expect(release.installSource(os: 'macos')!['file'], 'package-archive.zip');
   });
 
   test(
@@ -705,7 +699,6 @@ void main() {
         await downloadUrl(release, os: 'windows', installed: false),
         contains('/archive-x64?'),
       );
-      expect(await downloadUrl(release, os: 'macos'), contains('/installer?'));
       expect(
         await downloadUrl(release, os: 'linux', platformVersion: 'linux_arm64'),
         contains('/arm64?'),

@@ -6,7 +6,6 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
-	"runtime"
 	"syscall"
 
 	"github.com/salvia-vpn/salvia-vpn-client/core/internal/service"
@@ -48,13 +47,10 @@ func notify(title, body string) {
 	go func() { _ = cmd.Wait() }()
 }
 
-// browserAvailable reports whether openBrowser can show a page here: on
-// macOS, or on a Linux desktop (a display and xdg-open). A server has
-// neither; the console then gives the dashboard's address instead.
+// browserAvailable reports whether openBrowser can show a page here: on a
+// Linux desktop (a display and xdg-open). A server has neither; the console
+// then gives the dashboard's address instead.
 func browserAvailable() bool {
-	if runtime.GOOS == "darwin" {
-		return true
-	}
 	if os.Getenv("DISPLAY") == "" && os.Getenv("WAYLAND_DISPLAY") == "" {
 		return false
 	}
@@ -64,11 +60,7 @@ func browserAvailable() bool {
 
 // openBrowser opens url in the default browser.
 func openBrowser(url string) error {
-	opener := "xdg-open"
-	if runtime.GOOS == "darwin" {
-		opener = "open"
-	}
-	cmd := exec.Command(opener, url)
+	cmd := exec.Command("xdg-open", url)
 	if err := cmd.Start(); err != nil {
 		return err
 	}

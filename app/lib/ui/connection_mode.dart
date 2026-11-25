@@ -66,7 +66,6 @@ String connectionModeHint(
   if (installing) return l.tunInstallWaiting;
   if (status.tunMode) {
     return l.modeTunHint(switch (defaultTargetPlatform) {
-      TargetPlatform.macOS => l.osMacos,
       TargetPlatform.linux => l.osLinux,
       _ => l.osWindows,
     });

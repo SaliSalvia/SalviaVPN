@@ -5,16 +5,12 @@
 // rights, for the core, which stays an ordinary program (internal/tunservice,
 // protocol internal/tunapi). The app carries it beside the core and
 // installs it once: on Windows as a service in Program Files, on Linux as
-// a systemd service in /opt, on macOS as a launchd daemon in
-// /Library/Application Support.
+// a systemd service in /opt.
 //
 //	salvia-vpn-tun install     install or update the service for this user (asks for administrator rights)
 //	salvia-vpn-tun uninstall   remove the service (no prompt while it runs)
 //	salvia-vpn-tun update      make the running service this signed executable
 //	salvia-vpn-tun -version    print the version
-//
-// On macOS, install and uninstall take -prompt, the reason the
-// administrator prompt shows (the app passes it in the user's language).
 //
 // Started with no command, as from Explorer, it explains what it is and
 // links the project (on Windows in a console window of its own).

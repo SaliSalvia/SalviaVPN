@@ -16,7 +16,7 @@ import (
 )
 
 // InstallForUser installs the service for the user running this process.
-// Windows' prompt names the program itself, so prompt (macOS') is not
+// Windows' prompt names the program itself, so prompt is not
 // used.
 func InstallForUser(prompt string) error {
 	user, err := currentUser()

@@ -16,8 +16,7 @@ import (
 // use), Setup (installing and uninstalling), or a person in a terminal.
 // Only installing and uninstalling need administrator rights, and they ask
 // for them, in an elevated copy of this executable, once: Windows' prompt,
-// polkit's on Linux (pkexec), the administrator password on macOS
-// (client_*.go).
+// polkit's on Linux (pkexec) (client_*.go).
 
 // ErrCancelled is the user declining the administrator prompt.
 var ErrCancelled = errors.New("the administrator permission was not given")

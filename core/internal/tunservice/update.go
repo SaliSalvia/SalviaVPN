@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"path/filepath"
 
 	"github.com/salvia-vpn/salvia-vpn-client/core/internal/signing"
 )
@@ -21,16 +20,8 @@ import (
 // maxUpdateSize bounds the executable an update reads.
 const maxUpdateSize = 64 << 20
 
-// SignatureFile is where the signature of an executable is: beside it, but
-// in a macOS app (Contents/MacOS) in its Contents/Resources, since only
-// code may be in Contents/MacOS of a signed app.
-func SignatureFile(exe string) string {
-	dir := filepath.Dir(exe)
-	if filepath.Base(dir) == "MacOS" && filepath.Base(filepath.Dir(dir)) == "Contents" {
-		return filepath.Join(filepath.Dir(dir), "Resources", filepath.Base(exe)+".sig")
-	}
-	return exe + ".sig"
-}
+// SignatureFile is where the signature of an executable is: beside it.
+func SignatureFile(exe string) string { return exe + ".sig" }
 
 // readSigned reads the executable at path, and checks it against its
 // signature file and the built-in key. The bytes it returns are the ones

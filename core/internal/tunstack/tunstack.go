@@ -33,7 +33,7 @@ import (
 
 // Config is the device.
 type Config struct {
-	// Name is the adapter's name, as the network settings show it; macOS
+	// Name is the adapter's name, as the network settings show it; some
 	// names it itself (utunN).
 	Name string
 	// Inet4 is the adapter's address; Inet6, when valid, its IPv6 address,

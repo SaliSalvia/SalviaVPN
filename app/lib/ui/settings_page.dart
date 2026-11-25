@@ -126,7 +126,7 @@ List<(String, List<SettingsEntry>)> settingsGroups(
 /// other way round; these follow the `if (Platform...)` conditions in the
 /// sections' own code.
 bool settingOnThisPlatform(AppLocalizations l, String name) {
-  final computer = Platform.isWindows || Platform.isLinux || Platform.isMacOS;
+  final computer = Platform.isWindows || Platform.isLinux;
   final computerOnly = {
     l.closeBehavior,
     l.startOnBoot,
@@ -682,7 +682,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
           ),
-        if (Platform.isWindows || Platform.isLinux || Platform.isMacOS)
+        if (Platform.isWindows || Platform.isLinux)
           _Row(
             icon: Icons.power_settings_new_rounded,
             label: l.startOnBoot,
@@ -693,7 +693,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
         // Only with the start at sign-in: dimmed without it. Both rows are
         // under the one condition: an `if` covers only the element after it.
-        if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) ...[
+        if (Platform.isWindows || Platform.isLinux) ...[
           Opacity(
             opacity: s.autostart ? 1 : 0.5,
             child: _Row(
@@ -1571,7 +1571,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
         ),
         // The TUN mode's service, which no uninstaller removes from a
-        // portable copy on Windows, or on Linux and macOS: here, out of the
+        // portable copy on Windows, or on Linux: here, out of the
         // way, red, and asked first, since it is rarely meant.
         if (_core.status?.tun?.installed ?? false) ...[
           const SizedBox(height: 16),

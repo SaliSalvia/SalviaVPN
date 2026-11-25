@@ -439,7 +439,6 @@
   "modeTunHint": "Semua lalu lintas {os} lewat VPN.",
   "osWindows": "Windows",
   "osLinux": "Linux",
-  "osMacos": "macOS",
   "tunInstallWaiting": "Menunggu izin untuk memasang layanan TUN…",
   "tunInstallCancelled": "Mode TUN memerlukan izin administrator sekali. Izin tidak diberikan, jadi mode tidak berubah.",
   "tunInstallFailed": "Tidak dapat memasang layanan TUN: {error}",

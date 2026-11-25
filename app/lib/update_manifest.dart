@@ -79,7 +79,6 @@ class Release {
 
 String archiveKey(String os, String platformVersion) => switch (os) {
   'windows' => 'archive-x64',
-  'macos' => 'archive',
   'linux' => platformVersion.contains('arm64') ? 'arm64' : 'amd64',
   'android' => 'universal',
   _ => '',

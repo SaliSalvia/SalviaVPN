@@ -12,8 +12,6 @@ Future<bool> openUrl(String url) async {
     return AndroidCore.openUrl(url);
   } else if (Platform.isWindows) {
     await DesktopBridge.openUrl(url);
-  } else if (Platform.isMacOS) {
-    await Process.start('open', [url]);
   } else {
     await Process.start('xdg-open', [url]);
   }

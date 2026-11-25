@@ -100,7 +100,7 @@ func TestUntarUnpacksTheAppFolder(t *testing.T) {
 	}
 }
 
-// A macOS bundle's frameworks link within themselves; the links stay links.
+// An app bundle's frameworks link within themselves; the links stay links.
 func TestUntarKeepsLinksWithinTheApp(t *testing.T) {
 	if runtime.GOOS == "windows" {
 		t.Skip("links need Windows' developer mode")
@@ -174,39 +174,7 @@ func TestALinuxReleaseInstalls(t *testing.T) {
 	}
 }
 
-// A macOS release is the app's bundle; its Contents replaces the bundle's.
-func TestAMacReleaseInstalls(t *testing.T) {
-	thePackage = macPackage
-	t.Cleanup(func() { thePackage = windowsPackage })
-	r := newRelease(t, "1.2.3")
-	files := []tarFile{
-		tarRegular("SalviaVPN.app/Contents/Info.plist", "plist 1.2.3"),
-		tarExe("SalviaVPN.app/Contents/MacOS/SalviaVPN", "app 1.2.3"),
-		tarExe("SalviaVPN.app/Contents/MacOS/salvia-vpn-core", "core 1.2.3"),
-		tarExe("SalviaVPN.app/Contents/MacOS/salvia-vpn-tun", "tun 1.2.3"),
-	}
-	if runtime.GOOS != "windows" {
-		files = append(files, tarSymlink("SalviaVPN.app/Contents/Frameworks/App.framework/App", "Versions/Current/App"))
-	}
-	r.files[AssetName("1.2.3")] = appTar(t, files...)
-	r.sign()
-	r.serve(t)
-	if AssetName("1.2.3") != "SalviaVPN-1.2.3-macOS.tar.gz" {
-		t.Fatalf("asset %s", AssetName("1.2.3"))
-	}
-	appDir, dataDir := appFolder(t, "1.0.0", false)
-	p := installed(t, appDir, dataDir)
-	contents := filepath.Join(p.Package, "Contents")
-	if read(t, filepath.Join(contents, "MacOS", "salvia-vpn-core")) != "core 1.2.3" || read(t, filepath.Join(contents, "MacOS", "SalviaVPN")) != "app 1.2.3" {
-		t.Fatalf("unpacked into %s", p.Package)
-	}
-	if entries, _ := os.ReadDir(p.Package); len(entries) != 1 {
-		t.Fatalf("the package holds more than Contents: %v", entries)
-	}
-}
-
-// The app's folder holds the core: core/ on Windows and Linux, the bundle
-// on macOS.
+/// The app's folder holds the core: core/.
 func TestAppDirIsTheFolderThatHoldsTheCore(t *testing.T) {
 	t.Cleanup(func() { thePackage = windowsPackage })
 	for _, c := range []struct {
@@ -215,7 +183,6 @@ func TestAppDirIsTheFolderThatHoldsTheCore(t *testing.T) {
 	}{
 		{windowsPackage, "/Users/a/SalviaVPN/core/salvia-vpn-core.exe", "/Users/a/SalviaVPN"},
 		{linuxPackage, "/home/a/.local/opt/salvia-vpn/core/salvia-vpn-core", "/home/a/.local/opt/salvia-vpn"},
-		{macPackage, "/Applications/SalviaVPN.app/Contents/MacOS/salvia-vpn-core", "/Applications/SalviaVPN.app"},
 	} {
 		thePackage = c.pkg
 		if got := AppDir(filepath.FromSlash(c.exe)); got != filepath.FromSlash(c.want) {

@@ -49,7 +49,7 @@ func readResult(t *testing.T, dataDir string) Result {
 
 func TestApplySwapsAPortableCopyAndStartsTheApp(t *testing.T) {
 	if !platformSupported {
-		t.Skip("Windows, Linux, and macOS only")
+		t.Skip("Windows and Linux only")
 	}
 	newRelease(t, "1.2.3").serve(t)
 	appDir, dataDir := appFolder(t, "1.0.0", false)
@@ -88,7 +88,7 @@ func TestApplySwapsAPortableCopyAndStartsTheApp(t *testing.T) {
 // uninstaller, and gets its new version in Windows' list.
 func TestApplySwapsAnInstalledCopyAndSetsItsVersion(t *testing.T) {
 	if !platformSupported {
-		t.Skip("Windows, Linux, and macOS only")
+		t.Skip("Windows and Linux only")
 	}
 	newRelease(t, "1.2.3").serve(t)
 	appDir, dataDir := appFolder(t, "1.0.0", true)
@@ -110,7 +110,7 @@ func TestApplySwapsAnInstalledCopyAndSetsItsVersion(t *testing.T) {
 // list keeps its version.
 func TestAFailedApplyStartsTheOldVersion(t *testing.T) {
 	if !platformSupported {
-		t.Skip("Windows, Linux, and macOS only")
+		t.Skip("Windows and Linux only")
 	}
 	newRelease(t, "1.2.3").serve(t)
 	appDir, dataDir := appFolder(t, "1.0.0", true)
@@ -141,7 +141,7 @@ func TestAFailedApplyStartsTheOldVersion(t *testing.T) {
 
 func TestApplyLeavesARunningAppAlone(t *testing.T) {
 	if !platformSupported {
-		t.Skip("Windows, Linux, and macOS only")
+		t.Skip("Windows and Linux only")
 	}
 	newRelease(t, "1.2.3").serve(t)
 	appDir, dataDir := appFolder(t, "1.0.0", false)
@@ -162,7 +162,7 @@ func TestApplyLeavesARunningAppAlone(t *testing.T) {
 
 func TestWaitForExitWaitsForRealProcesses(t *testing.T) {
 	if !platformSupported {
-		t.Skip("Windows, Linux, and macOS only")
+		t.Skip("Windows and Linux only")
 	}
 	// This process does not exit: the wait times out. A process id that
 	// does not exist counts as exited.
@@ -176,7 +176,7 @@ func TestWaitForExitWaitsForRealProcesses(t *testing.T) {
 
 func TestOnlyOneUpdateOfAnAppRunsAtATime(t *testing.T) {
 	if !platformSupported {
-		t.Skip("Windows, Linux, and macOS only")
+		t.Skip("Windows and Linux only")
 	}
 	dataDir := t.TempDir()
 	unlock, err := lockApp(dataDir)
@@ -199,7 +199,7 @@ func TestOnlyOneUpdateOfAnAppRunsAtATime(t *testing.T) {
 // update starts the app again.
 func TestApplyLeavesTheAppToAnotherUpdate(t *testing.T) {
 	if !platformSupported {
-		t.Skip("Windows, Linux, and macOS only")
+		t.Skip("Windows and Linux only")
 	}
 	newRelease(t, "1.2.3").serve(t)
 	appDir, dataDir := appFolder(t, "1.0.0", false)

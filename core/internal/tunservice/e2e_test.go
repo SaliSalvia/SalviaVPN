@@ -1,4 +1,4 @@
-//go:build e2e && (linux || darwin)
+//go:build e2e && linux
 
 package tunservice
 
@@ -85,11 +85,8 @@ func TestEndToEnd(t *testing.T) {
 	egress.SetTun(iface.Index, iface.LUID)
 	defer egress.ClearTun()
 	ask(tunapi.Message{Type: tunapi.TypeRoute}, tunapi.TypeRouted)
-	// systemd-resolved is told in the background; macOS' resolver caches.
+	// systemd-resolved is told in the background.
 	time.Sleep(3 * time.Second)
-	if runtime.GOOS == "darwin" {
-		sh(t, "dscacheutil -flushcache; killall -HUP mDNSResponder")
-	}
 	t.Logf("routes:\n%s", sh(t, routesCommand(iface.Name)))
 	t.Logf("DNS:\n%s", sh(t, dnsCommand(iface.Name)))
 
@@ -102,9 +99,8 @@ func TestEndToEnd(t *testing.T) {
 	if fake := systemLookup(t, name); !strings.HasPrefix(fake, "198.18.") {
 		t.Errorf("the system's DNS gave %q for %s, not a fake address of the TUN's", fake, name)
 	}
-	// Apps by name, where they ask that DNS: always on macOS; on Linux
-	// through systemd-resolved's stub (WSL, for one, sends DNS to Windows
-	// instead).
+	// Apps by name, where they ask that DNS: on Linux through
+	// systemd-resolved's stub (WSL, for one, sends DNS to Windows instead).
 	if appsAskTheTun(t) {
 		sh(t, "curl -s -m 15 -o /dev/null http://"+name+"/")
 		if !seen.has(name + ":80") {
@@ -188,44 +184,28 @@ except socket.timeout:
 `
 
 // systemLookup is the IPv4 address the system's resolver gives for name:
-// mDNSResponder's on macOS, systemd-resolved's on Linux.
+// systemd-resolved's on Linux.
 func systemLookup(t *testing.T, name string) string {
-	if runtime.GOOS == "darwin" {
-		return sh(t, "dscacheutil -q host -a name "+name+" | awk '/^ip_address:/ {print $2; exit}'")
-	}
 	return sh(t, "resolvectl query --legend=no -4 "+name+" 2>&1 | awk '{print $2; exit}'")
 }
 
 // appsAskTheTun reports whether apps' DNS goes to the system's resolver,
 // which the TUN's DNS server answers.
 func appsAskTheTun(t *testing.T) bool {
-	if runtime.GOOS == "darwin" {
-		return true
-	}
 	return strings.Contains(sh(t, "grep '^nameserver' /etc/resolv.conf"), "127.0.0.53")
 }
 
 func routesCommand(tun string) string {
-	if runtime.GOOS == "darwin" {
-		return "netstat -rn | grep -w " + tun + " || true"
-	}
 	return "ip rule; ip -6 rule; ip route show table 2026; ip -6 route show table 2026"
 }
 
 func dnsCommand(tun string) string {
-	if runtime.GOOS == "darwin" {
-		return "scutil --dns | grep -m 5 nameserver"
-	}
 	return "resolvectl status " + tun + " | head -8"
 }
 
 // networkState is what the TUN changes and must put back: the default
 // routes, the rules (Linux), and the DNS settings.
 func networkState(t *testing.T) string {
-	if runtime.GOOS == "darwin" {
-		return sh(t, `netstat -rn -f inet | awk '$1=="default"'; netstat -rn -f inet6 | awk '$1=="default"'; `+
-			`networksetup -listallnetworkservices | tail -n +2 | tr -d '*' | while read -r s; do echo "$s: $(networksetup -getdnsservers "$s" | tr '\n' ' ')"; done`)
-	}
 	return sh(t, "ip route show default; ip -6 route show default; ip rule; ip -6 rule; cat /etc/resolv.conf")
 }
 

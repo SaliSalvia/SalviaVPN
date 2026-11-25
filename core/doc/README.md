@@ -44,7 +44,7 @@ The root [README.md](../README.md) is the user entry point.
 - Settings and accounts: `user-data/` next to the executable (the desktop app's data folder when the core sits beside `salvia-vpn.exe`), edited through the dashboard (`127.0.0.1:10820`).
 - Default SOCKS5 listener: `127.0.0.1:10810`; dashboard: `127.0.0.1:10820`.
 - Run modes: status screen in an interactive terminal (also a double-click), plain log (`-plain` or non-interactive), tray (`-tray`), desktop app core process (`-app`, started by the Flutter app), the update of the desktop app (`-update`, a copy of the core), systemd on Linux (plain log mode).
-- The proxy has no direct-target fallback; connections go directly only by the opt-in routing rules. On Windows the desktop app's TUN mode sends every app's TCP, and UDP on the ports Mozilla carries, to the core through the TUN service (`cmd/salvia-vpn-tun`), and the app updates itself on Windows, Linux, and macOS (`internal/update`, the core's `-update`).
+- The proxy has no direct-target fallback; connections go directly only by the opt-in routing rules. On Windows the desktop app's TUN mode sends every app's TCP, and UDP on the ports Mozilla carries, to the core through the TUN service (`cmd/salvia-vpn-tun`), and the app updates itself on Windows and Linux (`internal/update`, the core's `-update`).
 - Ordinary development uses isolated local tests. Real-account tests have explicit side effects and opt-in requirements.
 
 Use symbol names rather than historical line numbers when navigating. Keep each behavior documented in its owning guide and link to it from other documents.

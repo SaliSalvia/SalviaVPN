@@ -205,11 +205,11 @@ class CoreController extends ChangeNotifier {
   });
 
   /// Installs the TUN service, with the system's administrator prompt;
-  /// [prompt] is its reason on macOS.
+  /// [prompt] is the reason shown in the administrator prompt.
   Future<TunServiceResult> installTunService({String? prompt}) =>
       _tunService(() => tunService!.install(prompt: prompt), installing: true);
 
-  /// Removes the TUN service; [prompt] is the reason macOS' administrator
+  /// Removes the TUN service; [prompt] is the reason the administrator
   /// prompt shows when the service does not run.
   Future<TunServiceResult> removeTunService({String? prompt}) => _tunService(
     () => tunService!.uninstall(prompt: prompt),

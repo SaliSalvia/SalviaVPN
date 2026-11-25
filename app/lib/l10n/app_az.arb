@@ -439,7 +439,6 @@
   "modeTunHint": "Bütün {os} trafiki VPN-dən keçir.",
   "osWindows": "Windows",
   "osLinux": "Linux",
-  "osMacos": "macOS",
   "tunInstallWaiting": "TUN xidmətini quraşdırmaq üçün icazə gözlənilir…",
   "tunInstallCancelled": "TUN rejimi bir dəfə administrator icazəsi tələb edir. İcazə verilmədi, ona görə rejim dəyişmədi.",
   "tunInstallFailed": "TUN xidmətini quraşdırmaq alınmadı: {error}",

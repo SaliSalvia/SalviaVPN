@@ -774,11 +774,11 @@ const DataDirName = "user-data"
 
 // The desktop app (app/lib/core/core_api.dart, CoreLocator.dataDirFor)
 // keeps its data in DataDirName beside it on Windows (the installer puts it
-// in a folder of the user's own, so that is writable); on macOS and Linux
-// in AppFolder in the user's data location, or, with a PortableMarker file
+// in a folder of the user's own, so that is writable); on Linux in the
+// user's data location, or, with a PortableMarker file
 // beside it, in DataDirName beside it. The app keeps its core in CoreFolder
-// beside its executable (Windows, Linux) or beside the executable itself
-// (inside the macOS bundle). A core started from either place uses the
+// beside its executable (Windows, Linux). A core started from either place
+// uses the
 // app's data folder, so it sees the app's accounts and settings.
 const (
 	AppFolder      = "SalviaVPN"
@@ -786,13 +786,12 @@ const (
 	CoreFolder     = "core"
 )
 
-// appExecutables are the desktop app's executables: Windows, Linux, and
-// macOS (inside SalviaVPN.app/Contents/MacOS).
-var appExecutables = []string{"salvia-vpn.exe", "salvia-vpn", "SalviaVPN"}
+// appExecutables are the desktop app's executables: Windows and Linux.
+var appExecutables = []string{"salvia-vpn.exe", "salvia-vpn"}
 
 // DefaultDataDir returns the data folder: DataDirName next to the running
 // executable (symlinks resolved, so a linked binary still uses its real
-// folder), or, beside the desktop app on macOS and Linux, the app's.
+// folder), or, beside the desktop app on Linux, the app's.
 func DefaultDataDir() (string, error) {
 	dir, err := executableDir()
 	if err != nil {
@@ -803,9 +802,9 @@ func DefaultDataDir() (string, error) {
 	return data, nil
 }
 
-// The app's data folder on macOS and Linux before 1.0.9, when the program
+// The app's data folder on Linux before 1.0.9, when the program
 // was called Firefox VPN: beside the new one, by its new name.
-var legacyDataFolders = map[string]string{AppFolder: "Firefox VPN Client", linuxDataFolder: "firefox-vpn-client"}
+var legacyDataFolders = map[string]string{linuxDataFolder: "firefox-vpn-client"}
 
 // MoveLegacyDataDir moves the app's data folder of a version before 1.0.9
 // to dir, the app's data folder now, when the old one exists and the new
@@ -889,8 +888,6 @@ func defaultDataDirFor(exeDir, goos string, getenv func(string) string, exists f
 		home = getenv("USERPROFILE")
 	}
 	switch goos {
-	case "darwin":
-		return filepath.Join(home, "Library", "Application Support", AppFolder)
 	default:
 		base := getenv("XDG_DATA_HOME")
 		if base == "" {

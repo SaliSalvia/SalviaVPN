@@ -439,7 +439,6 @@
   "modeTunHint": "A {os} teljes forgalma a VPN-en át megy.",
   "osWindows": "Windows",
   "osLinux": "Linux",
-  "osMacos": "macOS",
   "tunInstallWaiting": "Várakozás az engedélyre a TUN-szolgáltatás telepítéséhez…",
   "tunInstallCancelled": "A TUN módhoz egyszer rendszergazdai engedély kell. Az engedély nem érkezett meg, ezért a mód nem változott.",
   "tunInstallFailed": "A TUN-szolgáltatás telepítése nem sikerült: {error}",

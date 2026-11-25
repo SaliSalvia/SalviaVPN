@@ -1558,9 +1558,6 @@ class AppLocalizationsFa extends AppLocalizations {
   String get osLinux => 'لینوکس';
 
   @override
-  String get osMacos => 'مک';
-
-  @override
   String get tunInstallWaiting => 'در انتظار اجازه برای نصب سرویس TUN…';
 
   @override

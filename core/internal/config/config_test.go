@@ -377,14 +377,9 @@ func TestDefaultDataDirFollowsTheApp(t *testing.T) {
 	if got := defaultDataDirFor(dir, "windows", getenv, exists); got != filepath.Join(dir, "user-data") {
 		t.Fatalf("beside the app on Windows: %s", got)
 	}
-	// On macOS: the app's folder in the user's data location.
-	files["SalviaVPN"] = true
-	if got := defaultDataDirFor(dir, "darwin", getenv, exists); got != filepath.Join("/home/u", "Library", "Application Support", "SalviaVPN") {
-		t.Fatalf("beside the app on macOS: %s", got)
-	}
 	// A portable app keeps user-data beside it.
 	files["portable"] = true
-	if got := defaultDataDirFor(dir, "darwin", getenv, exists); got != filepath.Join(dir, "user-data") {
+	if got := defaultDataDirFor(dir, "linux", getenv, exists); got != filepath.Join(dir, "user-data") {
 		t.Fatalf("portable: %s", got)
 	}
 }
@@ -398,7 +393,7 @@ func TestAppDir(t *testing.T) {
 	if got := appDir(app, exists); got != "" {
 		t.Fatalf("a core on its own belongs to %q", got)
 	}
-	for _, name := range []string{"salvia-vpn.exe", "salvia-vpn", "SalviaVPN"} {
+	for _, name := range []string{"salvia-vpn.exe", "salvia-vpn"} {
 		files = map[string]bool{filepath.Join(app, name): true}
 		if got := appDir(app, exists); got != app {
 			t.Fatalf("beside %s: %q", name, got)

@@ -439,7 +439,6 @@
   "modeTunHint": "Tüm {os} trafiği VPN üzerinden geçer.",
   "osWindows": "Windows",
   "osLinux": "Linux",
-  "osMacos": "macOS",
   "tunInstallWaiting": "TUN hizmetini yüklemek için izin bekleniyor…",
   "tunInstallCancelled": "TUN modu bir kez yönetici izni gerektirir. İzin verilmedi, bu yüzden mod değişmedi.",
   "tunInstallFailed": "TUN hizmeti yüklenemedi: {error}",

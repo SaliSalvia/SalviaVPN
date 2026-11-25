@@ -1580,9 +1580,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get osLinux => 'Linux';
 
   @override
-  String get osMacos => 'macOS';
-
-  @override
   String get tunInstallWaiting =>
       'Ожидание разрешения на установку службы TUN…';
 

@@ -439,7 +439,6 @@
   "modeTunHint": "Todo o tráfego do {os} passa pela VPN.",
   "osWindows": "Windows",
   "osLinux": "Linux",
-  "osMacos": "macOS",
   "tunInstallWaiting": "Aguardando permissão para instalar o serviço TUN…",
   "tunInstallCancelled": "O modo TUN precisa de permissão de administrador uma vez. Ela não foi dada, então o modo não mudou.",
   "tunInstallFailed": "Não foi possível instalar o serviço TUN: {error}",

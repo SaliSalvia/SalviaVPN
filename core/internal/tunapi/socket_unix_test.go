@@ -1,4 +1,4 @@
-//go:build linux || darwin
+//go:build linux
 
 package tunapi
 
@@ -14,7 +14,7 @@ import (
 )
 
 // useTestSocket serves the socket in a folder of the test's, as this user.
-// It is short: a socket's path has a limit (104 bytes on macOS).
+// It is short: a socket's path has a limit.
 func useTestSocket(t *testing.T) {
 	t.Helper()
 	dir, err := os.MkdirTemp("", "tun")

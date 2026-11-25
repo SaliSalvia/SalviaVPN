@@ -23,20 +23,10 @@ var linuxPackage = appPackage{
 	unpack: untar,
 }
 
-// macPackage is the macOS app's tar.gz (scripts/build-macos.sh): Firefox
-// VPN.app, for Apple silicon and Intel, as the disk image holds it. The
-// app's folder is the bundle, so an update replaces its Contents.
-var macPackage = appPackage{
-	name:   func(v string) string { return "SalviaVPN-" + v + "-macOS.tar.gz" },
-	app:    "Contents/MacOS/SalviaVPN",
-	core:   "Contents/MacOS/salvia-vpn-core",
-	unpack: untar,
-}
-
 // untar unpacks the tar.gz at file into dir, as unzip does a zip: one top
 // folder's contents go into dir, and names that would land outside it are
-// refused, as are hard links and symbolic links that point outside it (a
-// macOS bundle's frameworks link within themselves); a file keeps whether
+// refused, as are hard links and symbolic links that point outside it (an
+// app bundle's frameworks link within themselves); a file keeps whether
 // it is executable.
 func untar(file, dir string) error {
 	f, err := os.Open(file)

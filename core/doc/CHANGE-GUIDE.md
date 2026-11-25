@@ -93,7 +93,7 @@ Sources: `internal/desktop`: `tray.go` (menu, polling, notifications), `console_
 - The plain log mode (the systemd service on Linux) runs without a desktop, a console, or a user profile; code it runs must not depend on them.
 - On Windows, do not start a script host or system tool (PowerShell, `icacls`, `sc`), ask for elevation, or install a service: antivirus heuristics flag the program for them. `notify` does nothing on Windows for that reason; the tray icon and its tooltip show the state.
 - Pass notification text as separate arguments, never through a shell or script (`notify-send` takes it after `--`), and never include tokens or account secrets.
-- Keep Linux and macOS builds CGO-free: check `GOOS=linux CGO_ENABLED=0 go vet ./...` and `GOOS=darwin CGO_ENABLED=0 go vet ./cmd/...`.
+- Keep Linux builds CGO-free: check `GOOS=linux CGO_ENABLED=0 go vet ./...`.
 - Update [OPERATOR.md](OPERATOR.md) and, for files in the data folder, [CONFIGURATION.md](CONFIGURATION.md).
 
 ## Compatibility
@@ -124,18 +124,18 @@ Sources: `internal/resolver` (servers, racing, cache), `internal/service/network
 
 ## Change the TUN mode
 
-Sources: core side `internal/desktop/tun.go` (`tunSync`: dial, hello, update an older service, open, bind, route, close), `internal/service/tun.go` (the mode, its SOCKS listener, the status), `internal/egress` (the core's own sockets), `internal/netstate` (ignores the TUN adapter); service side `cmd/salvia-vpn-tun`, `internal/tunservice` (sessions, update; installing in `service_windows.go`, `service_linux.go` (systemd), `service_darwin.go` (launchd); elevating in `client_*.go`; DNS kept in the TUN by `filters_*.go`, on macOS through `macdns.go`), `internal/tunstack` (the only sing-tun importer; Linux's table and rules in `options_linux.go`), `internal/wfp`, `internal/tun` (FakeDNS); protocol `internal/tunapi` (the named pipe, the Unix socket).
+Sources: core side `internal/desktop/tun.go` (`tunSync`: dial, hello, update an older service, open, bind, route, close), `internal/service/tun.go` (the mode, its SOCKS listener, the status), `internal/egress` (the core's own sockets), `internal/netstate` (ignores the TUN adapter); service side `cmd/salvia-vpn-tun`, `internal/tunservice` (sessions, update; installing in `service_windows.go`, `service_linux.go` (systemd); elevating in `client_*.go`; DNS kept in the TUN by `filters_*.go`), `internal/tunstack` (the only sing-tun importer; Linux's table and rules in `options_linux.go`), `internal/wfp`, `internal/tun` (FakeDNS); protocol `internal/tunapi` (the named pipe, the Unix socket).
 
 - The core stays unprivileged: anything that needs the system's rights belongs in the service, and the core never elevates. Keep every outgoing socket of the core bound outside the TUN while it runs (`egress.Dialer`, `egress.Control`, `egress.ListenUDP`), or its connections loop back into its own proxy.
 - A protocol change raises `tunapi.Protocol` (and `MinProtocol` when old peers can no longer be served); `update` and `uninstall` must stay understood in every version, so any app can replace or remove any service.
-- Keep cleanup tied to the core's connection to the service, the WFP session dynamic, and the open-then-route order (the core binds and reconnects before routes exist). What a crash of the service leaves (Linux's rules, macOS' DNS settings) is undone when it starts again: note anything new it changes before changing it.
-- On Linux and macOS the socket is open to every user: the service answers a client only after `tunapi.Allowed` (root, or a user who installed it), and the client trusts only a socket served by root.
+- Keep cleanup tied to the core's connection to the service, the WFP session dynamic, and the open-then-route order (the core binds and reconnects before routes exist). What a crash of the service leaves (Linux's rules) is undone when it starts again: note anything new it changes before changing it.
+- On Linux the socket is open to every user: the service answers a client only after `tunapi.Allowed` (root, or a user who installed it), and the client trusts only a socket served by root.
 - The service accepts updates signed with its key only ([Development](DEVELOPMENT.md#signing-key)); never weaken `readSigned`.
-- Update [OPERATOR.md](OPERATOR.md#tun-mode), the app's texts, and the tests; the gVisor tests need `-tags with_gvisor`. A change to routes, DNS, or the channel on Linux or macOS runs the end-to-end test too (`e2e_test.go`; CI runs it on its Linux and macOS computers).
+- Update [OPERATOR.md](OPERATOR.md#tun-mode), the app's texts, and the tests; the gVisor tests need `-tags with_gvisor`. A change to routes, DNS, or the channel on Linux runs the end-to-end test too (`e2e_test.go`; CI runs it on its Linux computers).
 
 ## Change the app's updates
 
-Sources: `internal/update` (download, check, `Apply`, swap, the update folder; `process_windows.go`, `process_unix.go`, `process_linux.go`, and `process_darwin.go` for the lock, the wait, and the starts; `untar.go` for the Linux and macOS archives), `internal/service/update.go` (API, download transports), `internal/desktop/app.go` (the updater, the reconnect, the TUN service refresh), `internal/signing`, `tools/sign`; the app's `app/lib/core/updates.dart`; CI's release job signs `SHA256SUMS.txt`.
+Sources: `internal/update` (download, check, `Apply`, swap, the update folder; `process_windows.go`, `process_unix.go`, `process_linux.go`, and  for the lock, the wait, and the starts; `untar.go` for the Linux archives), `internal/service/update.go` (API, download transports), `internal/desktop/app.go` (the updater, the reconnect, the TUN service refresh), `internal/signing`, `tools/sign`; the app's `app/lib/core/updates.dart`; CI's release job signs `SHA256SUMS.txt`.
 
 - Install only what the signed list names, and only a newer version; re-check the package before installing. Never run the release's Setup for an update (its rollback keeps replaced files).
 - Never touch `user-data`, the portable marker, or Setup's uninstaller, nor anything in the app's folder that the new version does not replace; every failure must leave the old version whole and runnable.

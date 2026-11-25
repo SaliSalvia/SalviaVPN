@@ -68,7 +68,7 @@ func Apply(dataDir string) error {
 		logx.Info("update: installed version=%s", p.To)
 		appDir = relocate(appDir)
 		// What the system keeps about the app: Windows' list of installed
-		// apps shows the new version of a copy Setup installed; on macOS
+		// apps shows the new version of a copy Setup installed;
 		// the bundle loses the mark of a downloaded app.
 		if merr := markInstalled(appDir, p.To); merr != nil {
 			logx.Warn("update: telling the system about the new version failed err=%s", logx.Err(merr))

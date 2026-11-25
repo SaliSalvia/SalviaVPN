@@ -24,7 +24,7 @@ class TunServiceFailed extends TunServiceResult {
 
 /// The TUN mode's service (core/cmd/salvia-vpn-tun), beside the core: its
 /// install command asks for administrator rights itself (one prompt:
-/// Windows', polkit's on Linux, the administrator password on macOS),
+/// Windows' or polkit's on Linux),
 /// installs the service, and starts it; its uninstall command removes it,
 /// through the running service without a prompt. The core then uses the
 /// service; the app only installs it.
@@ -39,7 +39,7 @@ class TunService {
 
   final String executable;
 
-  /// [prompt] is the reason macOS' administrator prompt shows, in the
+  /// [prompt] is the reason the administrator prompt shows, in the
   /// user's language; Windows and polkit name the program themselves.
   Future<TunServiceResult> install({String? prompt}) => _run('install', prompt);
 
@@ -57,7 +57,6 @@ class TunService {
         executable,
         [
           command,
-          if (Platform.isMacOS && prompt != null) ...['-prompt', prompt],
         ],
         stderrEncoding: utf8,
         stdoutEncoding: utf8,

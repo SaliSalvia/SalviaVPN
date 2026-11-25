@@ -4,8 +4,8 @@
 #   curl -fsSL https://raw.githubusercontent.com/SaliSalvia/SalviaVPN/main/install.sh | bash
 #
 # Without an argument it decides by itself:
-#   - macOS, or Linux with a graphical session: the app, for the current
-#     user (no sudo);
+#   - Linux with a graphical session: the app, for the current user (no
+#     sudo);
 #   - Linux without a graphical session, or run as root: the core alone as
 #     a systemd service with the web dashboard (it asks sudo for that);
 #   - a Linux SSH session could be either, so it asks;
@@ -65,15 +65,9 @@ DESKTOP_FILE="$DATA_HOME/applications/com.salvia.vpn.desktop"
 AUTOSTART_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/autostart/salvia-vpn.desktop"
 APP_DATA="$DATA_HOME/salvia-vpn"
 
-# The macOS app's.
-MAC_APP="SalviaVPN.app"
-MAC_AGENT="$HOME/Library/LaunchAgents/com.salvia.vpn.plist"
-MAC_DATA="$HOME/Library/Application Support/SalviaVPN"
-
 # The TUN mode's service, which the app installs for the whole computer the
 # first time the mode is chosen (core/cmd/salvia-vpn-tun).
 TUN_LINUX="/opt/salvia-vpn-tun/salvia-vpn-tun"
-TUN_MAC="/Library/Application Support/SalviaVPN TUN/salvia-vpn-tun"
 
 # The same before 1.0.9 (LEGACY_NAME): an install or an update moves them
 # to the new names, a removal removes them.
@@ -83,10 +77,7 @@ LEGACY_APP_DIR="$HOME/.local/opt/$LEGACY_ID-client"
 LEGACY_APP_EXE="$LEGACY_APP_DIR/$LEGACY_ID"
 LEGACY_AUTOSTART="${XDG_CONFIG_HOME:-$HOME/.config}/autostart/$LEGACY_ID-client.desktop"
 LEGACY_APP_DATA="$DATA_HOME/$LEGACY_ID-client"
-LEGACY_MAC_APP="$LEGACY_NAME.app"
-LEGACY_MAC_DATA="$HOME/Library/Application Support/$LEGACY_NAME Client"
 LEGACY_TUN_LINUX="/opt/$LEGACY_ID-tun/$LEGACY_ID-tun"
-LEGACY_TUN_MAC="/Library/Application Support/$LEGACY_NAME TUN/$LEGACY_ID-tun"
 
 # Colors and symbols when the output is a terminal (and NO_COLOR is not
 # set); plain text otherwise, for logs and automation.
@@ -125,9 +116,7 @@ processor_name() {
 
 # os_name: this system's name and version, such as "Ubuntu 24.04.1 LTS".
 os_name() {
-  if [ "$OS" = "Darwin" ]; then
-    printf '%s %s\n' "$(sw_vers -productName 2>/dev/null || echo macOS)" "$(sw_vers -productVersion 2>/dev/null)"
-  elif [ -r /etc/os-release ]; then
+  if [ -r /etc/os-release ]; then
     (. /etc/os-release && echo "${PRETTY_NAME:-${NAME:-Linux}}")
   else
     uname -sr
@@ -227,15 +216,7 @@ choose() {
 }
 
 has_app() {
-  if [ "$OS" = "Darwin" ]; then
-    local app
-    for app in "$MAC_APP" "$LEGACY_MAC_APP"; do
-      [ ! -d "/Applications/$app" ] && [ ! -d "$HOME/Applications/$app" ] || return 0
-    done
-    return 1
-  else
-    [ -x "$APP_DIR/salvia-vpn" ] || [ -x "$LEGACY_APP_EXE" ]
-  fi
+  [ -x "$APP_DIR/salvia-vpn" ] || [ -x "$LEGACY_APP_EXE" ]
 }
 
 # has_service: the service, also under its name before 1.0.9 (unless
@@ -332,7 +313,7 @@ public_ip() {
 }
 
 install_server() {
-  [ "$OS" = "Linux" ] || die "the service is for Linux; on macOS, install the app: curl -fsSL $RAW | bash"
+  [ "$OS" = "Linux" ] || die "the service is for Linux"
   command -v systemctl >/dev/null 2>&1 || die "systemd is required"
   # Administrator rights first: without them nothing else is asked.
   need_sudo
@@ -551,56 +532,15 @@ EOF
   printf '\n'
 }
 
-# macOS: the app into /Applications (or ~/Applications when that is not
-# writable). Downloaded this way it carries no quarantine flag, so macOS
-# opens it without asking.
-install_mac_app() {
-  local file="SalviaVPN-macOS.dmg" dest=/Applications
-  [ -w "$dest" ] || dest="$HOME/Applications"
-  mkdir -p "$dest"
-  download "$file"
-  mkdir "$tmp/mnt"
-  hdiutil attach -nobrowse -readonly -quiet -mountpoint "$tmp/mnt" "$tmp/$file" || die "could not open $file"
-  mounted="$tmp/mnt"
-  [ -d "$tmp/mnt/$MAC_APP" ] || die "not an SalviaVPN disk image"
-  # A running copy quits first, so the new one replaces it; so does the
-  # app under its name before 1.0.9, which an update may have kept.
-  osascript -e 'quit app "SalviaVPN"' >/dev/null 2>&1 || true
-  osascript -e "quit app \"$LEGACY_NAME\"" >/dev/null 2>&1 || true
-  rm -rf "$dest/$MAC_APP" "$dest/$LEGACY_MAC_APP"
-  ditto "$tmp/mnt/$MAC_APP" "$dest/$MAC_APP"
-  # The app's LaunchAgent (starting it at sign-in) starts the new one until
-  # the app writes it again.
-  if [ -f "$MAC_AGENT" ]; then
-    sed -i '' -e "s|$dest/$LEGACY_MAC_APP/Contents/MacOS/$LEGACY_NAME|$dest/$MAC_APP/Contents/MacOS/SalviaVPN|g" \
-      -e "s|$dest/$LEGACY_MAC_APP/|$dest/$MAC_APP/|g" "$MAC_AGENT" || true
-  fi
-  hdiutil detach -quiet "$tmp/mnt" || true
-  mounted=""
-  ok "installed in $dest/$MAC_APP"
-  printf '\n  %s%s SalviaVPN is installed.%s\n' "$GREEN$BOLD" "$TICK" "$OFF"
-  section "Open it"
-  field "Launchpad" "SalviaVPN in Launchpad or Applications"
-  field "Command" "open \"$dest/$MAC_APP\"" "$CYAN"
-  field "Update" "run the same install command again (it also removes)"
-  printf '\n'
-}
-
 install_desktop() {
   [ "$(id -u)" -ne 0 ] || die "install the app as yourself, without sudo: curl -fsSL $RAW | bash -s -- desktop"
-  case "$OS" in
-    Darwin) install_mac_app ;;
-    *) install_linux_app ;;
-  esac
+  install_linux_app
 }
 
 remove_desktop() {
   local data legacy_data tun="$TUN_LINUX"
-  if [ "$OS" = "Darwin" ]; then tun="$TUN_MAC"; fi
   # Only the service of a version before 1.0.9: it removes itself as well.
-  if [ ! -x "$tun" ]; then
-    if [ "$OS" = "Darwin" ]; then tun="$LEGACY_TUN_MAC"; else tun="$LEGACY_TUN_LINUX"; fi
-  fi
+  if [ ! -x "$tun" ]; then tun="$LEGACY_TUN_LINUX"; fi
   # The TUN service goes with the app: the running service removes itself
   # without a prompt; else it asks for the administrator's permission.
   if [ -x "$tun" ]; then
@@ -610,18 +550,9 @@ remove_desktop() {
       warn "the TUN service is still installed; remove it with: \"$tun\" uninstall"
     fi
   fi
-  if [ "$OS" = "Darwin" ]; then
-    osascript -e 'quit app "SalviaVPN"' >/dev/null 2>&1 || true
-    osascript -e "quit app \"$LEGACY_NAME\"" >/dev/null 2>&1 || true
-    rm -rf "/Applications/$MAC_APP" "$HOME/Applications/$MAC_APP" \
-      "/Applications/$LEGACY_MAC_APP" "$HOME/Applications/$LEGACY_MAC_APP"
-    rm -f "$MAC_AGENT"
-    data="$MAC_DATA" legacy_data="$LEGACY_MAC_DATA"
-  else
-    rm -rf "$APP_DIR" "$APP_DIR.old" "$LEGACY_APP_DIR" "$LEGACY_APP_DIR.old"
-    rm -f "$DESKTOP_FILE" "$AUTOSTART_FILE" "$LEGACY_AUTOSTART"
-    data="$APP_DATA" legacy_data="$LEGACY_APP_DATA"
-  fi
+  rm -rf "$APP_DIR" "$APP_DIR.old" "$LEGACY_APP_DIR" "$LEGACY_APP_DIR.old"
+  rm -f "$DESKTOP_FILE" "$AUTOSTART_FILE" "$LEGACY_AUTOSTART"
+  data="$APP_DATA" legacy_data="$LEGACY_APP_DATA"
   # Data an app before 1.0.9 kept, which a newer one did not take over yet.
   [ -d "$data" ] || [ ! -d "$legacy_data" ] || data="$legacy_data"
   if [ "$PURGE" = "1" ]; then
@@ -636,9 +567,7 @@ remove_desktop() {
 # and CERTAIN (0 when a remote session leaves it open).
 detect() {
   CERTAIN=1
-  if [ "$OS" = "Darwin" ]; then
-    KIND=desktop
-  elif [ "$(id -u)" -eq 0 ]; then
+  if [ "$(id -u)" -eq 0 ]; then
     # The app installs for a user, never for root.
     KIND=server
   elif [ -n "${SSH_CONNECTION:-}${SSH_TTY:-}" ]; then
@@ -696,17 +625,10 @@ auto() {
   if [ "$KIND" = desktop ]; then install_desktop; else install_server; fi
 }
 
-case "$OS" in
-  Darwin | Linux) ;;
-  *) die "this installer is for Linux and macOS" ;;
-esac
+[ "$OS" = "Linux" ] || die "this installer is for Linux"
 command -v tar >/dev/null 2>&1 || die "tar is required"
 tmp="$(mktemp -d)"
-mounted=""
-cleanup() {
-  if [ -n "$mounted" ]; then hdiutil detach -quiet "$mounted" || true; fi
-  rm -rf "$tmp"
-}
+cleanup() { rm -rf "$tmp"; }
 trap cleanup EXIT
 
 banner

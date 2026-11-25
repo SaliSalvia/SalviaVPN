@@ -221,7 +221,7 @@ func RunConsole(paths service.DataPaths, verbose bool) (bool, error) {
 			keys <- r
 		}
 	}()
-	// Closing the terminal window sends SIGHUP on Linux and macOS (SIGTERM
+	// Closing the terminal window sends SIGHUP on Linux (SIGTERM
 	// on Windows); caught, it stops the proxy and restores the system proxy
 	// like 0 does.
 	signals := make(chan os.Signal, 1)

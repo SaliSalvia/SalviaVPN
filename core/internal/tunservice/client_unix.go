@@ -1,4 +1,4 @@
-//go:build linux || darwin
+//go:build linux
 
 package tunservice
 
@@ -12,7 +12,7 @@ import (
 
 // InstallForUser installs the service for the user running this process
 // (as root through sudo, for the user who ran sudo), asking for the
-// administrator's permission; prompt is the reason macOS' prompt shows.
+// administrator's permission; prompt is the reason the prompt shows.
 func InstallForUser(prompt string) error {
 	uid := strconv.Itoa(os.Getuid())
 	if os.Geteuid() == 0 {

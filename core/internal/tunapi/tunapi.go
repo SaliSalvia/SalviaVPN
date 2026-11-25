@@ -3,7 +3,7 @@
 // with the system's rights. Messages are JSON objects, one per line, over a
 // channel that only the users who installed the service can use: a named
 // pipe on Windows (pipe_windows.go), whose access list keeps others out; a
-// Unix socket on Linux and macOS (socket_unix.go), where the service asks
+// Unix socket on Linux (socket_unix.go), where the service asks
 // the kernel who connected and answers others only CodeNotAllowed.
 //
 // A client says hello first, and both sides learn each other's version. The

@@ -4,7 +4,7 @@ package desktop
 
 import "errors"
 
-// listsPrograms: no program skips the VPN here (macOS: the TUN service
+// listsPrograms: no program skips the VPN here (the TUN service
 // does not find connections' programs), so none are listed.
 const listsPrograms = false
 

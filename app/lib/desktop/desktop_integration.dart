@@ -130,19 +130,13 @@ class DesktopIntegration {
   );
 
   /// The icon file inside the build's flutter_assets: an .ico on Windows,
-  /// a .png on Linux and macOS (inside the app bundle there).
+  /// a .png on Linux.
   static String _icon(String name) {
     final sep = Platform.pathSeparator;
     final dir = File(Platform.resolvedExecutable).parent.path;
     return [
       dir,
-      if (Platform.isMacOS) ...[
-        '..',
-        'Frameworks',
-        'App.framework',
-        'Resources',
-      ] else
-        'data',
+      'data',
       'flutter_assets',
       'assets',
       'tray',

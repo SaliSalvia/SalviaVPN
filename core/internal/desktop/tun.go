@@ -85,12 +85,12 @@ func newTunSync(host tunHost, bundled string) *tunSync {
 }
 
 // tunAvailable reports whether this process can run the TUN mode: on
-// Windows, Linux, and macOS, with the service installed or beside the core
+// Windows and Linux, with the service installed or beside the core
 // to install, and with the core's own connections kept outside the TUN
 // (egress.Supported: an older Linux does not let them be).
 func tunAvailable() (bundled string, ok bool) {
 	switch runtime.GOOS {
-	case "windows", "linux", "darwin":
+	case "windows", "linux":
 	default:
 		return "", false
 	}

@@ -24,8 +24,8 @@ import (
 )
 
 // The tests make the Windows zip on every system; untar_test.go tries the
-// Linux and macOS archives. (The init of process_linux.go or
-// process_darwin.go runs first: its file sorts first.)
+// Linux archive. (The init of process_linux.go runs first: its file sorts
+// first.)
 func init() { thePackage = windowsPackage }
 
 // release is a test release: its files by name, served under
@@ -534,7 +534,7 @@ func TestANewStartReadsTheResultAndCleansUp(t *testing.T) {
 func TestSupportedNeedsAKeyAVersionAndTheApp(t *testing.T) {
 	appDir, dataDir := appFolder(t, "1.0.0", false)
 	if runtime.GOOS != "windows" {
-		// Linux and macOS keep the data outside the app.
+		// Linux keeps the data outside the app.
 		dataDir = t.TempDir()
 	}
 	old := signing.Key
@@ -550,9 +550,8 @@ func TestSupportedNeedsAKeyAVersionAndTheApp(t *testing.T) {
 	if Supported(t.TempDir(), dataDir, "1.0.0") == "" && platformSupported {
 		t.Error("supported without the app")
 	}
-	// Windows wants the app's own user-data; Linux and macOS a folder on
-	// the app's drive outside the app (a portable macOS copy keeps it in
-	// the bundle, which the swap replaces).
+	// Windows wants the app's own user-data; Linux a folder on the app's
+	// drive outside the app.
 	others := []string{t.TempDir()}
 	if runtime.GOOS != "windows" {
 		others = []string{filepath.Join(t.TempDir(), "missing"), filepath.Join(appDir, "user-data")}
@@ -562,7 +561,7 @@ func TestSupportedNeedsAKeyAVersionAndTheApp(t *testing.T) {
 			t.Errorf("supported with the data folder %s", other)
 		}
 	}
-	// A copy run as root does not update itself (Linux and macOS).
+	// A copy run as root does not update itself (Linux).
 	want := platformSupported && (runtime.GOOS == "windows" || os.Geteuid() != 0)
 	if got := Supported(appDir, dataDir, "1.0.0"); (got == "") != want {
 		t.Errorf("got %q", got)

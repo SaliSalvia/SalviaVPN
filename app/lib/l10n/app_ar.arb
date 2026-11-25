@@ -439,7 +439,6 @@
   "modeTunHint": "تمر كل حركة بيانات {os} عبر VPN.",
   "osWindows": "Windows",
   "osLinux": "Linux",
-  "osMacos": "macOS",
   "tunInstallWaiting": "بانتظار الإذن لتثبيت خدمة TUN…",
   "tunInstallCancelled": "يحتاج وضع TUN إلى إذن المسؤول مرة واحدة. لم يُمنح الإذن، فلم يتغير الوضع.",
   "tunInstallFailed": "تعذّر تثبيت خدمة TUN: {error}",

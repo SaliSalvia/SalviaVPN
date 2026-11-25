@@ -2757,12 +2757,6 @@ abstract class AppLocalizations {
   /// **'Linux'**
   String get osLinux;
 
-  /// No description provided for @osMacos.
-  ///
-  /// In en, this message translates to:
-  /// **'macOS'**
-  String get osMacos;
-
   /// No description provided for @tunInstallWaiting.
   ///
   /// In en, this message translates to:
@@ -2871,13 +2865,13 @@ abstract class AppLocalizations {
   /// **'The TUN service was removed.'**
   String get tunServiceRemoved;
 
-  /// macOS: the reason its administrator password prompt shows when the app installs the TUN mode's service.
+  /// The reason the administrator prompt shows when the app installs the TUN mode's service.
   ///
   /// In en, this message translates to:
   /// **'SalviaVPN wants to install the service for TUN mode.'**
   String get tunInstallPrompt;
 
-  /// macOS: the reason its administrator password prompt shows when the app removes the TUN mode's service while the service does not run.
+  /// The reason the administrator prompt shows when the app removes the TUN mode's service while the service does not run.
   ///
   /// In en, this message translates to:
   /// **'SalviaVPN wants to remove the service for TUN mode.'**

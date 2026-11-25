@@ -17,10 +17,9 @@ import 'signin_dialog.dart';
 import 'widgets.dart';
 
 /// Whether this platform has the in-app browser for the browser sign-in
-/// (WebView2 on Windows, the system WebView on Android, WKWebView on
-/// macOS).
+/// (WebView2 on Windows, the system WebView on Android).
 bool get browserSignInSupported =>
-    Platform.isWindows || Platform.isAndroid || Platform.isMacOS;
+    Platform.isWindows || Platform.isAndroid;
 
 /// The Windows browser views share one WebView2 environment, made once per
 /// run of the app with the sign-in proxy it is given then; the core is
@@ -72,13 +71,10 @@ String _loginUrl(String email) => Uri.https('accounts.firefox.com', '/', {
 /// to what looks like Firefox.
 String get _userAgent => Platform.isAndroid
     ? 'Mozilla/5.0 (Android 14; Mobile; rv:145.0) Gecko/145.0 Firefox/145.0'
-    : Platform.isMacOS
-    ? 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:145.0) '
-          'Gecko/20100101 Firefox/145.0'
     : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:145.0) '
           'Gecko/20100101 Firefox/145.0';
 
-/// Sends this app's web views (Android's WebView, macOS's WKWebView)
+/// Sends this app's web views (Android's WebView)
 /// through the proxy at [address], or straight out again when it is null.
 /// False when the system's web view cannot take a proxy: the view then
 /// connects by itself.
@@ -216,7 +212,7 @@ class _BrowserSignInPageState extends State<BrowserSignInPage> {
 
   ww.WebviewController? _windows;
   StreamSubscription<Object?>? _messages;
-  // Android and macOS: webview_flutter's view.
+  // Android: webview_flutter's view.
   wf.WebViewController? _view;
   String? _error;
   bool _loading = true;
@@ -226,7 +222,7 @@ class _BrowserSignInPageState extends State<BrowserSignInPage> {
   Timer? _follow;
   bool _reading = false;
   // Whether this page opened the core's sign-in proxy, and set it as the
-  // web view's proxy (Android, macOS): both are undone when it closes.
+  // web view's proxy (Android): both are undone when it closes.
   bool _proxyOpen = false;
   bool _viewProxySet = false;
 
