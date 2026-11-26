@@ -1,11 +1,11 @@
-<div align="center">
+successfully downloaded text file (SHA: b1ca11f53ebd990acd4b43f94f31fd5c669f9f41)<div align="center">
 
 [🇺🇸 English](../../README.md) &nbsp;/&nbsp; [🇮🇷 فارسی](README_fa.md) &nbsp;/&nbsp; **🇨🇳 简体中文** &nbsp;/&nbsp; [🇷🇺 Русский](README_ru.md)
 
 </div>
 <br>
 
-<p align="center"><img src="../images/logo.png" width="360" alt="SalviaVPN"></p>
+<p align="center"><img src="../images/logo.svg" width="230" alt="SalviaVPN"></p>
 
 <h1 align="center">SalviaVPN</h1>
 
