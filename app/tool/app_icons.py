@@ -1,8 +1,6 @@
-successfully downloaded text file (SHA: f5553dd256e78821abe37b305ec9a7ee13addf1f)successfully downloaded text file (SHA: 35e4e452a0dd07e4bb6bafe87f09b0df49b65506)successfully downloaded text file (SHA: a7766a60d335b38e3be90d8d5d25f859ffeb2492)successfully downloaded text file (SHA: e14c481b54bbade29b40032805078921593dc47a)"""Makes every icon of the program from its artwork: the raster that
-docs/images/logo.png carries (source_art()). The tray keeps its own chip,
-which it draws itself (symbol()): a square chip with three pins on each
-side, and on its face a four-point star with two companion dots, the
-constellation of its nebula.
+successfully downloaded text file (SHA: e14c481b54bbade29b40032805078921593dc47a)"""Makes every icon of the program from its symbol, which it draws itself
+(symbol()): a square chip with three pins on each side, and on its face a
+four-point star with two companion dots, the constellation of its nebula.
 The tile under it is the logo's nebula: a deep indigo sky with violet, pink,
 and cyan glows and a scatter of stars. From it:
 
@@ -31,7 +29,7 @@ and cyan glows and a scatter of stars. From it:
   proxy points at it, faded while asleep, red on an error; the first frame
   while waiting.
 
-The documentation's wordmark is docs/images/wordmark.png: the artwork with
+The wordmark of the documentation is docs/images/logo.png: the tile with
 the name in the nebula's colors beside it, made by wordmark().
 
 Run from app/ after changing the symbol or the colors (needs Pillow):
@@ -44,14 +42,10 @@ import random
 
 from PIL import Image, ImageDraw, ImageEnhance, ImageFilter, ImageFont
 
-# Pillow renamed its resampling filters; this name works on every version.
-LANCZOS = getattr(Image, 'Resampling', Image).LANCZOS
-
 HERE = os.path.dirname(os.path.abspath(__file__))
 APP = os.path.join(HERE, '..')
 CORE = os.path.join(APP, '..', 'core')
 RES = os.path.join(APP, 'android', 'app', 'src', 'main', 'res')
-SOURCE = os.path.join(APP, '..', 'docs', 'images', 'logo.png')
 
 # The symbol's height as a share of the 108 dp canvas. Launchers show about
 # the middle 72 dp (67%), so 0.46 makes it about 70% of the tile.
@@ -96,19 +90,6 @@ STAR, STAR_IN = 3.8, 1.5
 DOT, DOT_GAP = 1.3, 0.3
 
 
-def source_art(size):
-    """The program's artwork, docs/images/logo.png, centered to a square
-    where it is not one already, on a size px RGBA canvas. Every icon but
-    the tray's comes from it."""
-    with Image.open(SOURCE) as img:
-        art = img.convert('RGBA')
-    side = min(art.width, art.height)
-    left = (art.width - side) // 2
-    top = (art.height - side) // 2
-    art = art.crop((left, top, left + side, top + side))
-    return art.resize((size, size), LANCZOS)
-
-
 def star_points(cx, cy, r, inner, rays=4):
     """The outline of a `rays`-pointed sparkle: `inner` is the radius of
     the valleys between the points."""
@@ -149,7 +130,7 @@ def symbol(size):
         [x0 * s, y0 * s, x1 * s, y1 * s],
         radius=CHIP_RADIUS * s, outline=WHITE, width=max(1, round(CHIP_STROKE * s)))
     d.polygon(star_points(cx * s, cy * s, STAR * s, STAR_IN * s), fill=WHITE)
-    return img.resize((size, size), LANCZOS)
+    return img.resize((size, size), Image.LANCZOS)
 
 
 def nebula(size, seed=3):
@@ -202,22 +183,43 @@ def nebula(size, seed=3):
     return img
 
 
+def tile_art():
+    """The tile (512 px): the nebula in a black rounded square of 412 px,
+    the symbol 300 px wide in its middle."""
+    size, body = 512, 412
+    out = Image.new('RGBA', (size, size), (0, 0, 0, 0))
+    off = (size - body) // 2
+    mask = Image.new('L', (body, body), 0)
+    ImageDraw.Draw(mask).rounded_rectangle([0, 0, body - 1, body - 1], radius=round(body * 0.2), fill=255)
+    face = nebula(body)
+    span = CHIP[2] + PIN_LEN - (CHIP[0] - PIN_LEN)
+    art = symbol(round(300 * 24 / span))
+    face.alpha_composite(art, ((body - art.width) // 2, (body - art.height) // 2))
+    out.paste(face, (off, off), mask)
+    return out
+
+
 def art_layer(art, size, share):
     """The art's visible part, its larger side share of size, centered."""
     art = art.crop(art.getchannel('A').getbbox())
     scale = size * share / max(art.size)
     w, h = max(1, round(art.width * scale)), max(1, round(art.height * scale))
     layer = Image.new('RGBA', (size, size), (0, 0, 0, 0))
-    layer.alpha_composite(art.resize((w, h), LANCZOS), ((size - w) // 2, (size - h) // 2))
+    layer.alpha_composite(art.resize((w, h), Image.LANCZOS), ((size - w) // 2, (size - h) // 2))
     return layer
 
 
 def tile(glyph, size):
-    """The legacy launcher tile: the artwork, with rounded corners."""
+    """The visible middle of the adaptive icon, rounded."""
+    canvas = round(size * 108 / 72)
+    full = nebula(canvas)
+    full.alpha_composite(art_layer(glyph, canvas, ART))
+    cut = (canvas - size) // 2
+    square = full.crop((cut, cut, cut + size, cut + size)).convert('RGBA')
     mask = Image.new('L', (size, size), 0)
     ImageDraw.Draw(mask).rounded_rectangle([0, 0, size - 1, size - 1], radius=size // 5, fill=255)
     out = Image.new('RGBA', (size, size), (0, 0, 0, 0))
-    out.paste(glyph.resize((size, size), LANCZOS), (0, 0), mask)
+    out.paste(square, (0, 0), mask)
     return out
 
 
@@ -226,14 +228,8 @@ def android(glyph):
         folder = os.path.join(RES, 'mipmap-' + dpi)
         os.makedirs(folder, exist_ok=True)
         px = round(108 * k)
-        # The background layer is the artwork itself; since launchers
-        # crop it, the same artwork shrunk into the safe zone rides on
-        # top as the foreground layer.
-        source_art(px).save(os.path.join(folder, 'ic_launcher_background.png'), optimize=True)
-        small = round(px * 0.62)
-        layer = Image.new('RGBA', (px, px), (0, 0, 0, 0))
-        layer.alpha_composite(tile(source_art(small), small), ((px - small) // 2, (px - small) // 2))
-        layer.save(os.path.join(folder, 'ic_launcher_foreground.png'), optimize=True)
+        art_layer(glyph, px, ART).save(os.path.join(folder, 'ic_launcher_foreground.png'), optimize=True)
+        nebula(px).save(os.path.join(folder, 'ic_launcher_background.png'), optimize=True)
         tile(glyph, round(48 * k)).save(os.path.join(folder, 'ic_launcher.png'), optimize=True)
     folder = os.path.join(RES, 'mipmap-anydpi-v26')
     os.makedirs(folder, exist_ok=True)
@@ -299,7 +295,7 @@ def core(tile_art):
 
 
 def wordmark(tile_art):
-    """The documentation's wordmark (docs/images/wordmark.png): the tile and the
+    """The documentation's logo (docs/images/logo.png): the tile and the
     name in the nebula's colors beside it, with the sparkle of its stars
     and the sweep of its signature underline."""
     def sweep_color(t):
@@ -376,7 +372,7 @@ def wordmark(tile_art):
     # documentation's light page.
     d.polygon(star_points(x_end + 2, y_end - 14, 10, 2.8), fill=(0x1E, 0x6F, 0xD6, 255))
     d.polygon(star_points(x_end + 2, y_end - 14, 4.5, 1.4), fill=(255, 255, 255, 235))
-    out.save(os.path.join(APP, '..', 'docs', 'images', 'wordmark.png'), optimize=True)
+    out.save(os.path.join(APP, '..', 'docs', 'images', 'logo.png'), optimize=True)
 
 
 # The tray's state colors: green while connected, red on an error, and the
@@ -429,11 +425,11 @@ def tray_icon(side=None, dot=None):
         d.ellipse([x - r, y - r, x + r, y + r], fill=TRAY_TILE)
         r = DOT * s
         d.ellipse([x - r, y - r, x + r, y + r], fill=dot + (255,))
-    return img.resize((80, 80), LANCZOS)
+    return img.resize((80, 80), Image.LANCZOS)
 
 
 def save_ico(path, big):
-    images = [big.resize((n, n), LANCZOS) for n in TRAY_SIZES]
+    images = [big.resize((n, n), Image.LANCZOS) for n in TRAY_SIZES]
     images[-1].save(path, format='ICO', sizes=[(n, n) for n in TRAY_SIZES], append_images=images[:-1])
 
 
@@ -454,7 +450,7 @@ def tray():
     for name, big in icons.items():
         save_ico(os.path.join(app, name + '.ico'), big)
         # Linux (AppIndicator) takes a .png; 64 px stays sharp when scaled.
-        big.resize((64, 64), LANCZOS).save(os.path.join(app, name + '.png'), optimize=True)
+        big.resize((64, 64), Image.LANCZOS).save(os.path.join(app, name + '.png'), optimize=True)
     # The core's tray: an .ico for Windows, a 32 px .png elsewhere.
     folder = os.path.join(CORE, 'internal', 'desktop', 'tray')
     os.makedirs(folder, exist_ok=True)
@@ -469,17 +465,18 @@ def tray():
     }
     for name, big in states.items():
         save_ico(os.path.join(folder, name + '.ico'), big)
-        big.resize((32, 32), LANCZOS).save(os.path.join(folder, name + '.png'), optimize=True)
+        big.resize((32, 32), Image.LANCZOS).save(os.path.join(folder, name + '.png'), optimize=True)
 
 
 def main():
-    glyph = source_art(1024)
+    square = tile_art()
+    glyph = symbol(1024)
     android(glyph)
     tv_banner(glyph)
-    windows(glyph)
-    core(glyph)
-    app_logo(glyph)
-    wordmark(glyph)
+    windows(square)
+    core(square)
+    app_logo(square)
+    wordmark(square)
     tray()
 
 
