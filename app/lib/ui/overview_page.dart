@@ -317,7 +317,27 @@ class _DesktopHome extends StatelessWidget {
       ),
       child: Stack(
         children: [
-          // The logo's stars, behind the soft lights.
+          Positioned.fill(
+            child: Image.asset(
+              'assets/brand/starfield.jpg',
+              fit: BoxFit.cover,
+              filterQuality: FilterQuality.high,
+            ),
+          ),
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    p.top.withValues(alpha: p.dark ? 0.68 : 0.84),
+                    p.bottom.withValues(alpha: p.dark ? 0.78 : 0.91),
+                  ],
+                ),
+              ),
+            ),
+          ),
           Positioned.fill(child: _Starfield(dark: p.dark)),
           Positioned(
             top: -140,
@@ -424,6 +444,11 @@ class _DesktopHome extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        Align(
+          alignment: AlignmentDirectional.centerStart,
+          child: const AppBrand(logoSize: 32, wordmarkWidth: 146),
+        ),
+        const SizedBox(height: 10),
         Center(
           child: _PowerOrb(
             palette: p,
@@ -1222,7 +1247,27 @@ class _PhoneHome extends StatelessWidget {
     final top = MediaQuery.paddingOf(context).top;
     return Stack(
       children: [
-        // The logo's stars, behind the soft lights.
+        Positioned.fill(
+          child: Image.asset(
+            'assets/brand/starfield.jpg',
+            fit: BoxFit.cover,
+            filterQuality: FilterQuality.high,
+          ),
+        ),
+        Positioned.fill(
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  p.top.withValues(alpha: p.dark ? 0.68 : 0.84),
+                  p.bottom.withValues(alpha: p.dark ? 0.78 : 0.91),
+                ],
+              ),
+            ),
+          ),
+        ),
         Positioned.fill(child: _Starfield(dark: p.dark)),
         // Soft lights in the state's color and two others.
         Positioned(
@@ -1245,19 +1290,7 @@ class _PhoneHome extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Row(
-                children: [
-                  const AppLogo(size: 28),
-                  const SizedBox(width: 8),
-                  Text(
-                    l.appTitle,
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w700,
-                      color: p.text,
-                    ),
-                  ),
-                ],
-              ),
+              const AppBrand(logoSize: 28, wordmarkWidth: 144),
               const Spacer(),
               SizedBox(height: short ? 4 : 16),
               Center(

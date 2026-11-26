@@ -1,6 +1,6 @@
-"""Makes every icon of the program from its artwork, docs/images/logo.png:
-the galactic shield in its nebula, which is the logo the documentation
-shows and the app draws beside its name. From it:
+"""Makes the program's launcher and window icons from tool/app_icon.png:
+the supplied galactic chip and orbit artwork. The documentation's logo and
+the in-app signature remain separate. From the artwork:
 
 - Android (android/app/src/main/res): an adaptive icon for Android 8+, the
   artwork on the night sky as the background layer and an empty foreground
@@ -29,10 +29,10 @@ shows and the app draws beside its name. From it:
   points at it, faded while asleep, red on an error; the first frame while
   waiting.
 
-docs/images/logo.png is the source, so a new logo is a new file there and
-this script run again; it never writes that file.
+tool/app_icon.png is the source; docs/images/logo.png is a separate logo and
+this script never writes it.
 
-Run from app/ after changing the artwork (needs Pillow):
+Run from app/ after changing tool/app_icon.png (needs Pillow):
 
     python tool/app_icons.py
 """
@@ -44,14 +44,14 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 APP = os.path.join(HERE, '..')
 CORE = os.path.join(APP, '..', 'core')
 RES = os.path.join(APP, 'android', 'app', 'src', 'main', 'res')
-LOGO = os.path.join(APP, '..', 'docs', 'images', 'logo.png')
+APP_ICON = os.path.join(HERE, 'app_icon.png')
 
 LANCZOS = getattr(Image, 'Resampling', Image).LANCZOS
 DENSITY = {'mdpi': 1, 'hdpi': 1.5, 'xhdpi': 2, 'xxhdpi': 3, 'xxxhdpi': 4}
 WINDOWS_SIZES = [16, 20, 24, 32, 40, 48, 64, 128, 256]
 
 # The artwork's share of the adaptive icon's 108 dp canvas: a launcher shows
-# the middle 72 dp (67%), so 0.86 keeps the shield inside the crop.
+# the middle 72 dp (67%), so 0.86 keeps the orbit inside the crop.
 ART = 0.86
 NIGHT = (0x0A, 0x06, 0x22, 255)
 WHITE = (255, 255, 255, 255)
@@ -270,7 +270,7 @@ def tray():
 
 
 def main():
-    base = Image.open(LOGO).convert('RGBA')
+    base = Image.open(APP_ICON).convert('RGBA')
     android(base)
     tv_banner(base)
     windows(base)
