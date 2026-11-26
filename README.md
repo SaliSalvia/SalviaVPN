@@ -1,11 +1,11 @@
-successfully downloaded text file (SHA: ccfbcd1183bb1c67d5aaf310981ca2dfebf03612)successfully downloaded text file (SHA: 01f1ff9aea5ba74f123696b6b0a0c7eeb19c5ede)<div align="center">
+successfully downloaded text file (SHA: 01f1ff9aea5ba74f123696b6b0a0c7eeb19c5ede)<div align="center">
 
 **🇺🇸 English** &nbsp;/&nbsp; [🇨🇳 简体中文](docs/readme/README_zh.md) &nbsp;/&nbsp; [🇷🇺 Русский](docs/readme/README_ru.md) &nbsp;/&nbsp; [🇮🇷 فارسی](docs/readme/README_fa.md)
 
 </div>
 <br>
 
-<p align="center"><img src="docs/images/logo.png" width="230" alt="SalviaVPN"></p>
+<p align="center"><img src="docs/images/logo.png" width="360" alt="SalviaVPN"></p>
 
 <h1 align="center">SalviaVPN</h1>
 
