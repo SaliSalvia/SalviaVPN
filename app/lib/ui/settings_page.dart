@@ -358,7 +358,7 @@ class _SettingsPageState extends State<SettingsPage> {
         return;
       }
     }
-    final result = await _core.removeTunService(prompt: l.tunRemovePrompt);
+    final result = await _core.removeTunService();
     if (!mounted) return;
     switch (result) {
       case TunServiceDone():

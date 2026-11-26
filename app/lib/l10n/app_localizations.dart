@@ -2739,7 +2739,7 @@ abstract class AppLocalizations {
   /// **'TUN'**
   String get modeTun;
 
-  /// Under the TUN mode on the home page; os is osWindows, osLinux, or osMacos.
+  /// Under the TUN mode on the home page; os is osWindows or osLinux.
   ///
   /// In en, this message translates to:
   /// **'All {os} traffic goes through the VPN.'**
@@ -2864,18 +2864,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The TUN service was removed.'**
   String get tunServiceRemoved;
-
-  /// The reason the administrator prompt shows when the app installs the TUN mode's service.
-  ///
-  /// In en, this message translates to:
-  /// **'SalviaVPN wants to install the service for TUN mode.'**
-  String get tunInstallPrompt;
-
-  /// The reason the administrator prompt shows when the app removes the TUN mode's service while the service does not run.
-  ///
-  /// In en, this message translates to:
-  /// **'SalviaVPN wants to remove the service for TUN mode.'**
-  String get tunRemovePrompt;
 
   /// No description provided for @tunRemoveFailed.
   ///

@@ -457,8 +457,6 @@
   "removeTunService": "TUN সার্ভিস সরান",
   "removeTunServiceHint": "TUN মোড যে সিস্টেম সার্ভিস ব্যবহার করে তা সরিয়ে দেয়। আবার TUN বেছে নিলে এটি আবার ইনস্টল হয়।",
   "tunServiceRemoved": "TUN সার্ভিস সরানো হয়েছে।",
-  "tunInstallPrompt": "SalviaVPN TUN মোডের জন্য সার্ভিসটি ইনস্টল করতে চায়।",
-  "tunRemovePrompt": "SalviaVPN TUN মোডের সার্ভিসটি সরাতে চায়।",
   "tunRemoveFailed": "TUN সার্ভিস সরানো যায়নি: {error}",
   "sectionTun": "TUN সেটিংস",
   "tunPrograms": "VPN এড়িয়ে চলা প্রোগ্রাম",

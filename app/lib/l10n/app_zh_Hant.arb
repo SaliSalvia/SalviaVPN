@@ -457,8 +457,6 @@
   "removeTunService": "移除 TUN 服務",
   "removeTunServiceHint": "移除 TUN 模式使用的系統服務。再次選擇 TUN 時會重新安裝。",
   "tunServiceRemoved": "已移除 TUN 服務。",
-  "tunInstallPrompt": "SalviaVPN 想要安裝 TUN 模式的服務。",
-  "tunRemovePrompt": "SalviaVPN 想要移除 TUN 模式的服務。",
   "tunRemoveFailed": "無法移除 TUN 服務：{error}",
   "sectionTun": "TUN 設定",
   "tunPrograms": "繞過 VPN 的程式",

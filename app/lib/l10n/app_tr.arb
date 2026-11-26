@@ -457,8 +457,6 @@
   "removeTunService": "TUN hizmetini kaldır",
   "removeTunServiceHint": "TUN modunun kullandığı sistem hizmetini kaldırır. TUN yeniden seçildiğinde yeniden yüklenir.",
   "tunServiceRemoved": "TUN hizmeti kaldırıldı.",
-  "tunInstallPrompt": "SalviaVPN, TUN modu için hizmeti yüklemek istiyor.",
-  "tunRemovePrompt": "SalviaVPN, TUN modunun hizmetini kaldırmak istiyor.",
   "tunRemoveFailed": "TUN hizmeti kaldırılamadı: {error}",
   "sectionTun": "TUN ayarları",
   "tunPrograms": "VPN'i atlayan programlar",

@@ -22,9 +22,9 @@ func run(command string, args []string) int {
 		}
 		var err error
 		if command == "install" {
-			err = tunservice.InstallForUser("")
+			err = tunservice.InstallForUser()
 		} else {
-			err = tunservice.UninstallForUser("")
+			err = tunservice.UninstallForUser()
 		}
 		if errors.Is(err, tunservice.ErrCancelled) {
 			return exitCancelled

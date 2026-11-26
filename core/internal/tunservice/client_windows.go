@@ -16,9 +16,8 @@ import (
 )
 
 // InstallForUser installs the service for the user running this process.
-// Windows' prompt names the program itself, so prompt is not
-// used.
-func InstallForUser(prompt string) error {
+// Windows' prompt names the program itself.
+func InstallForUser() error {
 	user, err := currentUser()
 	if err != nil {
 		return err
@@ -31,7 +30,7 @@ func InstallForUser(prompt string) error {
 
 // UninstallForUser removes the service: through its pipe while it runs,
 // with no prompt; else elevated.
-func UninstallForUser(prompt string) error {
+func UninstallForUser() error {
 	if installed, err := tunapi.Installed(); err == nil && !installed {
 		return nil
 	}

@@ -42,7 +42,7 @@ Future<bool> installTunService(
   CoreController core,
 ) async {
   final l = AppLocalizations.of(context);
-  final result = await core.installTunService(prompt: l.tunInstallPrompt);
+  final result = await core.installTunService();
   if (!context.mounted) return result is TunServiceDone;
   switch (result) {
     case TunServiceDone():

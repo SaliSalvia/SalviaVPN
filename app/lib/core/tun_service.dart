@@ -39,16 +39,13 @@ class TunService {
 
   final String executable;
 
-  /// [prompt] is the reason the administrator prompt shows, in the
-  /// user's language; Windows and polkit name the program themselves.
-  Future<TunServiceResult> install({String? prompt}) => _run('install', prompt);
+  Future<TunServiceResult> install() => _run('install');
 
-  Future<TunServiceResult> uninstall({String? prompt}) =>
-      _run('uninstall', prompt);
+  Future<TunServiceResult> uninstall() => _run('uninstall');
 
   /// Exit status 0 done, 3 the prompt declined, anything else failed with
   /// the reason on the standard error (core/cmd/salvia-vpn-tun).
-  Future<TunServiceResult> _run(String command, String? prompt) async {
+  Future<TunServiceResult> _run(String command) async {
     if (!File(executable).existsSync()) {
       return TunServiceFailed('$executable is missing');
     }

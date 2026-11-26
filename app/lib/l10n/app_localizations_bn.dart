@@ -1629,13 +1629,6 @@ class AppLocalizationsBn extends AppLocalizations {
   String get tunServiceRemoved => 'TUN সার্ভিস সরানো হয়েছে।';
 
   @override
-  String get tunInstallPrompt =>
-      'SalviaVPN TUN মোডের জন্য সার্ভিসটি ইনস্টল করতে চায়।';
-
-  @override
-  String get tunRemovePrompt => 'SalviaVPN TUN মোডের সার্ভিসটি সরাতে চায়।';
-
-  @override
   String tunRemoveFailed(String error) {
     return 'TUN সার্ভিস সরানো যায়নি: $error';
   }

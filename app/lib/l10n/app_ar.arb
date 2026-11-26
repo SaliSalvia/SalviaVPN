@@ -457,8 +457,6 @@
   "removeTunService": "إزالة خدمة TUN",
   "removeTunServiceHint": "يزيل خدمة النظام التي يستخدمها وضع TUN. اختيار TUN مرة أخرى يثبّتها من جديد.",
   "tunServiceRemoved": "أُزيلت خدمة TUN.",
-  "tunInstallPrompt": "يريد SalviaVPN تثبيت الخدمة لوضع TUN.",
-  "tunRemovePrompt": "يريد SalviaVPN إزالة خدمة وضع TUN.",
   "tunRemoveFailed": "تعذّرت إزالة خدمة TUN: {error}",
   "sectionTun": "إعدادات TUN",
   "tunPrograms": "برامج تتجاوز VPN",

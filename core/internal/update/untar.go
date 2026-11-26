@@ -25,9 +25,8 @@ var linuxPackage = appPackage{
 
 // untar unpacks the tar.gz at file into dir, as unzip does a zip: one top
 // folder's contents go into dir, and names that would land outside it are
-// refused, as are hard links and symbolic links that point outside it (an
-// app bundle's frameworks link within themselves); a file keeps whether
-// it is executable.
+// refused, as are hard links and symbolic links that point outside it, while
+// a link within it stays a link; a file keeps whether it is executable.
 func untar(file, dir string) error {
 	f, err := os.Open(file)
 	if err != nil {

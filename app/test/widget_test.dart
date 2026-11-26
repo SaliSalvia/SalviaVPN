@@ -3495,11 +3495,6 @@ void main() {
       await tester.tap(find.text('TUN'));
       await tester.pumpAndSettle();
       expect(service.installs, 1);
-      // The reason the administrator prompt would show, in the app's language.
-      expect(
-        service.prompt,
-        'SalviaVPN wants to install the service for TUN mode.',
-      );
       expect(api.mode, 'tun');
       api.tun = {'state': 'on', 'installed': true};
       await core.refresh();
@@ -3569,10 +3564,6 @@ void main() {
       await tester.tap(find.widgetWithText(FilledButton, 'Remove'));
       await tester.pumpAndSettle();
       expect(service.removals, 1);
-      expect(
-        service.prompt,
-        'SalviaVPN wants to remove the service for TUN mode.',
-      );
       expect(find.text('The TUN service was removed.'), findsOneWidget);
       expect(api.tun?['installed'], isFalse);
       await done(tester, core);
@@ -3865,8 +3856,7 @@ void main() {
 }
 
 /// The TUN service's program, without the system's: an install that works
-/// makes the core report it installed. It notes the reason it was given for
-/// the prompt.
+/// makes the core report it installed.
 class FakeTunService implements TunService {
   FakeTunService(this.api, this.result);
 
@@ -3874,15 +3864,13 @@ class FakeTunService implements TunService {
   final TunServiceResult result;
   int installs = 0;
   int removals = 0;
-  String? prompt;
 
   @override
   String get executable => 'salvia-vpn-tun.exe';
 
   @override
-  Future<TunServiceResult> install({String? prompt}) async {
+  Future<TunServiceResult> install() async {
     installs++;
-    this.prompt = prompt;
     if (result is TunServiceDone) {
       api.tun = {...?api.tun, 'installed': true};
     }
@@ -3890,9 +3878,8 @@ class FakeTunService implements TunService {
   }
 
   @override
-  Future<TunServiceResult> uninstall({String? prompt}) async {
+  Future<TunServiceResult> uninstall() async {
     removals++;
-    this.prompt = prompt;
     if (result is TunServiceDone) {
       api.tun = {...?api.tun, 'installed': false};
     }

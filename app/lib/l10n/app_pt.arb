@@ -457,8 +457,6 @@
   "removeTunService": "Remover o serviço TUN",
   "removeTunServiceHint": "Remove o serviço do sistema que o modo TUN usa. Escolher TUN de novo o instala outra vez.",
   "tunServiceRemoved": "O serviço TUN foi removido.",
-  "tunInstallPrompt": "O SalviaVPN quer instalar o serviço do modo TUN.",
-  "tunRemovePrompt": "O SalviaVPN quer remover o serviço do modo TUN.",
   "tunRemoveFailed": "Não foi possível remover o serviço TUN: {error}",
   "sectionTun": "Configurações de TUN",
   "tunPrograms": "Programas fora da VPN",

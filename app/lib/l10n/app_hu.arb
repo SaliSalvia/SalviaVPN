@@ -457,8 +457,6 @@
   "removeTunService": "A TUN-szolgáltatás eltávolítása",
   "removeTunServiceHint": "Eltávolítja a rendszerszolgáltatást, amelyet a TUN mód használ. A TUN újbóli választása újra telepíti.",
   "tunServiceRemoved": "A TUN-szolgáltatás eltávolítva.",
-  "tunInstallPrompt": "Az SalviaVPN telepíteni szeretné a TUN mód szolgáltatását.",
-  "tunRemovePrompt": "Az SalviaVPN el szeretné távolítani a TUN mód szolgáltatását.",
   "tunRemoveFailed": "A TUN-szolgáltatás eltávolítása nem sikerült: {error}",
   "sectionTun": "TUN-beállítások",
   "tunPrograms": "VPN-t megkerülő programok",

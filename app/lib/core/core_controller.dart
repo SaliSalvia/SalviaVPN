@@ -204,17 +204,13 @@ class CoreController extends ChangeNotifier {
     }
   });
 
-  /// Installs the TUN service, with the system's administrator prompt;
-  /// [prompt] is the reason shown in the administrator prompt.
-  Future<TunServiceResult> installTunService({String? prompt}) =>
-      _tunService(() => tunService!.install(prompt: prompt), installing: true);
+  /// Installs the TUN service, with the system's administrator prompt.
+  Future<TunServiceResult> installTunService() =>
+      _tunService(() => tunService!.install(), installing: true);
 
-  /// Removes the TUN service; [prompt] is the reason the administrator
-  /// prompt shows when the service does not run.
-  Future<TunServiceResult> removeTunService({String? prompt}) => _tunService(
-    () => tunService!.uninstall(prompt: prompt),
-    installing: false,
-  );
+  /// Removes the TUN service.
+  Future<TunServiceResult> removeTunService() =>
+      _tunService(() => tunService!.uninstall(), installing: false);
 
   Future<TunServiceResult> _tunService(
     Future<TunServiceResult> Function() run, {

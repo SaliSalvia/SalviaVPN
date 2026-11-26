@@ -1646,14 +1646,6 @@ class AppLocalizationsHu extends AppLocalizations {
   String get tunServiceRemoved => 'A TUN-szolgáltatás eltávolítva.';
 
   @override
-  String get tunInstallPrompt =>
-      'Az SalviaVPN telepíteni szeretné a TUN mód szolgáltatását.';
-
-  @override
-  String get tunRemovePrompt =>
-      'Az SalviaVPN el szeretné távolítani a TUN mód szolgáltatását.';
-
-  @override
   String tunRemoveFailed(String error) {
     return 'A TUN-szolgáltatás eltávolítása nem sikerült: $error';
   }

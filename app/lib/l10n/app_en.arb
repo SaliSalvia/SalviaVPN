@@ -942,7 +942,7 @@
   },
   "modeTunHint": "All {os} traffic goes through the VPN.",
   "@modeTunHint": {
-    "description": "Under the TUN mode on the home page; os is osWindows, osLinux, or osMacos.",
+    "description": "Under the TUN mode on the home page; os is osWindows or osLinux.",
     "placeholders": {
       "os": {
         "type": "String"
@@ -976,14 +976,6 @@
   "removeTunService": "Remove the TUN service",
   "removeTunServiceHint": "Removes the system service that TUN mode uses. Choosing TUN again installs it again.",
   "tunServiceRemoved": "The TUN service was removed.",
-  "tunInstallPrompt": "SalviaVPN wants to install the service for TUN mode.",
-  "@tunInstallPrompt": {
-    "description": "The reason the administrator prompt shows when the app installs the TUN mode's service."
-  },
-  "tunRemovePrompt": "SalviaVPN wants to remove the service for TUN mode.",
-  "@tunRemovePrompt": {
-    "description": "The reason the administrator prompt shows when the app removes the TUN mode's service while the service does not run."
-  },
   "tunRemoveFailed": "Couldn't remove the TUN service: {error}",
   "@tunRemoveFailed": {
     "placeholders": {

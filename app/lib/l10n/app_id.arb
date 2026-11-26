@@ -457,8 +457,6 @@
   "removeTunService": "Hapus layanan TUN",
   "removeTunServiceHint": "Menghapus layanan sistem yang dipakai mode TUN. Memilih TUN lagi akan memasangnya kembali.",
   "tunServiceRemoved": "Layanan TUN telah dihapus.",
-  "tunInstallPrompt": "SalviaVPN ingin memasang layanan untuk mode TUN.",
-  "tunRemovePrompt": "SalviaVPN ingin menghapus layanan mode TUN.",
   "tunRemoveFailed": "Tidak dapat menghapus layanan TUN: {error}",
   "sectionTun": "Pengaturan TUN",
   "tunPrograms": "Program yang melewati VPN",

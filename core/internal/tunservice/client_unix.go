@@ -12,8 +12,8 @@ import (
 
 // InstallForUser installs the service for the user running this process
 // (as root through sudo, for the user who ran sudo), asking for the
-// administrator's permission; prompt is the reason the prompt shows.
-func InstallForUser(prompt string) error {
+// administrator's permission.
+func InstallForUser() error {
 	uid := strconv.Itoa(os.Getuid())
 	if os.Geteuid() == 0 {
 		if sudo := os.Getenv("SUDO_UID"); sudo != "" && uid == "0" {
@@ -21,12 +21,12 @@ func InstallForUser(prompt string) error {
 		}
 		return Install(uid)
 	}
-	return runElevated(prompt, "install-as-admin", "-user", uid)
+	return runElevated("install-as-admin", "-user", uid)
 }
 
 // UninstallForUser removes the service: through its socket while it runs,
 // with no prompt; else as the administrator.
-func UninstallForUser(prompt string) error {
+func UninstallForUser() error {
 	if installed, err := tunapi.Installed(); err == nil && !installed {
 		return nil
 	}
@@ -36,7 +36,7 @@ func UninstallForUser(prompt string) error {
 	if os.Geteuid() == 0 {
 		return Uninstall()
 	}
-	return runElevated(prompt, "uninstall-as-admin")
+	return runElevated("uninstall-as-admin")
 }
 
 // reportFile makes the file an elevated copy writes why it failed to, and

@@ -373,8 +373,7 @@ class DesktopIntegration {
       return;
     }
     if (!(core.status?.tun?.installed ?? false) &&
-        await core.installTunService(prompt: _l.tunInstallPrompt)
-            is! TunServiceDone) {
+        await core.installTunService() is! TunServiceDone) {
       return;
     }
     await core.setSystemProxy('tun').catchError((_) {});

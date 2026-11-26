@@ -100,23 +100,21 @@ func TestUntarUnpacksTheAppFolder(t *testing.T) {
 	}
 }
 
-// An app bundle's frameworks link within themselves; the links stay links.
-func TestUntarKeepsLinksWithinTheApp(t *testing.T) {
+// A link inside the archive's folder stays a link.
+func TestUntarKeepsLinksWithinTheFolder(t *testing.T) {
 	if runtime.GOOS == "windows" {
 		t.Skip("links need Windows' developer mode")
 	}
-	fw := "SalviaVPN.app/Contents/Frameworks/FlutterMacOS.framework/"
 	file := writeTar(t,
-		tarExe("SalviaVPN.app/Contents/MacOS/SalviaVPN", "app"),
-		tarSymlink(fw+"FlutterMacOS", "Versions/Current/FlutterMacOS"),
-		tarSymlink(fw+"Versions/Current", "A"),
-		tarExe(fw+"Versions/A/FlutterMacOS", "flutter"),
+		tarExe("salvia-vpn/salvia-vpn", "app"),
+		tarSymlink("salvia-vpn/lib/libapp.so", "libapp.so.1"),
+		tarExe("salvia-vpn/lib/libapp.so.1", "flutter"),
 	)
 	out := filepath.Join(t.TempDir(), "out")
 	if err := untar(file, out); err != nil {
 		t.Fatal(err)
 	}
-	link := filepath.Join(out, "Contents", "Frameworks", "FlutterMacOS.framework", "FlutterMacOS")
+	link := filepath.Join(out, "lib", "libapp.so")
 	if info, err := os.Lstat(link); err != nil || info.Mode()&os.ModeSymlink == 0 {
 		t.Fatalf("not a link: %v %v", info, err)
 	}

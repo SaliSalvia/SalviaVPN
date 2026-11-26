@@ -1648,14 +1648,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get tunServiceRemoved => 'Le service TUN a été supprimé.';
 
   @override
-  String get tunInstallPrompt =>
-      'SalviaVPN veut installer le service du mode TUN.';
-
-  @override
-  String get tunRemovePrompt =>
-      'SalviaVPN veut supprimer le service du mode TUN.';
-
-  @override
   String tunRemoveFailed(String error) {
     return 'Impossible de supprimer le service TUN : $error';
   }

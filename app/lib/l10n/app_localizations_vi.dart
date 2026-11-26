@@ -1632,13 +1632,6 @@ class AppLocalizationsVi extends AppLocalizations {
   String get tunServiceRemoved => 'Đã gỡ dịch vụ TUN.';
 
   @override
-  String get tunInstallPrompt =>
-      'SalviaVPN muốn cài đặt dịch vụ cho chế độ TUN.';
-
-  @override
-  String get tunRemovePrompt => 'SalviaVPN muốn gỡ dịch vụ của chế độ TUN.';
-
-  @override
   String tunRemoveFailed(String error) {
     return 'Không thể gỡ dịch vụ TUN: $error';
   }

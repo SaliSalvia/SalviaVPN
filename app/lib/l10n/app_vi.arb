@@ -457,8 +457,6 @@
   "removeTunService": "Gỡ dịch vụ TUN",
   "removeTunServiceHint": "Gỡ dịch vụ hệ thống mà chế độ TUN dùng. Chọn lại TUN sẽ cài đặt lại dịch vụ.",
   "tunServiceRemoved": "Đã gỡ dịch vụ TUN.",
-  "tunInstallPrompt": "SalviaVPN muốn cài đặt dịch vụ cho chế độ TUN.",
-  "tunRemovePrompt": "SalviaVPN muốn gỡ dịch vụ của chế độ TUN.",
   "tunRemoveFailed": "Không thể gỡ dịch vụ TUN: {error}",
   "sectionTun": "Cài đặt TUN",
   "tunPrograms": "Chương trình không qua VPN",

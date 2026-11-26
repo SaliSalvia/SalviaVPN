@@ -1566,12 +1566,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get tunServiceRemoved => '已移除 TUN 服务。';
 
   @override
-  String get tunInstallPrompt => 'SalviaVPN 想要安装 TUN 模式的服务。';
-
-  @override
-  String get tunRemovePrompt => 'SalviaVPN 想要移除 TUN 模式的服务。';
-
-  @override
   String tunRemoveFailed(String error) {
     return '无法移除 TUN 服务：$error';
   }
@@ -3268,12 +3262,6 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
 
   @override
   String get tunServiceRemoved => '已移除 TUN 服務。';
-
-  @override
-  String get tunInstallPrompt => 'SalviaVPN 想要安裝 TUN 模式的服務。';
-
-  @override
-  String get tunRemovePrompt => 'SalviaVPN 想要移除 TUN 模式的服務。';
 
   @override
   String tunRemoveFailed(String error) {
