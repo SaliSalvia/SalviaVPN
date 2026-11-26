@@ -21,9 +21,7 @@ const firefoxAccountSignUpUrl = 'https://accounts.firefox.com/';
 const firefoxAccountSetPasswordUrl =
     'https://accounts.firefox.com/reset_password/';
 
-/// The program's logo (assets/logo.png, the artwork in
-/// docs/images/logo.png, made by tool/app_icons.py), [size] logical pixels
-/// square.
+/// The app's square logo mark, [size] logical pixels square.
 class AppLogo extends StatelessWidget {
   const AppLogo({super.key, required this.size});
 
@@ -31,12 +29,55 @@ class AppLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Image.asset(
-    'assets/logo.png',
+    'assets/brand/salvia_mark.png',
     width: size,
     height: size,
     filterQuality: FilterQuality.medium,
     excludeFromSemantics: true,
   );
+}
+
+/// The in-app brand mark and handwritten SalviaVPN wordmark.
+class AppBrand extends StatelessWidget {
+  const AppBrand({
+    super.key,
+    this.logoSize = 32,
+    this.wordmarkWidth = 136,
+  });
+
+  final double logoSize;
+  final double wordmarkWidth;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    return Semantics(
+      label: l.appTitle,
+      container: true,
+      child: ExcludeSemantics(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AppLogo(size: logoSize),
+            const SizedBox(width: 9),
+            Image.asset(
+              'assets/brand/salvia_signature.png',
+              width: wordmarkWidth,
+              height: logoSize * 1.35,
+              fit: BoxFit.contain,
+              filterQuality: FilterQuality.high,
+              errorBuilder: (context, error, stackTrace) => Text(
+                l.appTitle,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 /// Status colors that read in both themes.

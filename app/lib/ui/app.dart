@@ -309,17 +309,7 @@ class _ShellState extends State<Shell> {
                 minExtendedWidth: 190,
                 leading: Padding(
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 20),
-                  child: Row(
-                    children: [
-                      const AppLogo(size: 34),
-                      const SizedBox(width: 10),
-                      Text(
-                        l.appTitle,
-                        style: Theme.of(context).textTheme.titleMedium
-                            ?.copyWith(fontWeight: FontWeight.w600),
-                      ),
-                    ],
-                  ),
+                  child: const AppBrand(logoSize: 32, wordmarkWidth: 108),
                 ),
                 destinations: [
                   for (final (icon, selected, label) in items)

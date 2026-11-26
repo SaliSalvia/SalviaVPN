@@ -30,8 +30,9 @@ flutter:
   generate: true
 
   assets:
-    # The shield artwork beside the app's name (tool/app_icons.py).
+    # The in-app brand mark, wordmark, and supplied space background.
     - assets/logo.png
+    - assets/brand/
     - assets/tray/
     # Country flags from flag-icons (MIT, assets/flags/LICENSE), the same
     # SVG files as the core's web dashboard.
