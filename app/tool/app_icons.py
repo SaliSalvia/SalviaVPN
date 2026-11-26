@@ -1,4 +1,4 @@
-successfully downloaded text file (SHA: a7766a60d335b38e3be90d8d5d25f859ffeb2492)successfully downloaded text file (SHA: e14c481b54bbade29b40032805078921593dc47a)"""Makes every icon of the program from its artwork: the raster that
+successfully downloaded text file (SHA: 35e4e452a0dd07e4bb6bafe87f09b0df49b65506)successfully downloaded text file (SHA: a7766a60d335b38e3be90d8d5d25f859ffeb2492)successfully downloaded text file (SHA: e14c481b54bbade29b40032805078921593dc47a)"""Makes every icon of the program from its artwork: the raster that
 docs/images/logo.png carries (source_art()). The tray keeps its own chip,
 which it draws itself (symbol()): a square chip with three pins on each
 side, and on its face a four-point star with two companion dots, the
@@ -31,7 +31,7 @@ and cyan glows and a scatter of stars. From it:
   proxy points at it, faded while asleep, red on an error; the first frame
   while waiting.
 
-The wordmark of the documentation is docs/images/logo.png: the tile with
+The documentation's wordmark is docs/images/wordmark.png: the artwork with
 the name in the nebula's colors beside it, made by wordmark().
 
 Run from app/ after changing the symbol or the colors (needs Pillow):
