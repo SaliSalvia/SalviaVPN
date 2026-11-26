@@ -188,15 +188,18 @@ See [Routing](../core/doc/CONFIGURATION.md#routing) for the selection rules.
 
 ## Icons
 
-Every icon of the program comes from `tool/app_icon.png` (the fox shield,
-1024 px, transparent): `python tool/app_icons.py` (Pillow) writes the
-Android launcher icon (adaptive, over a blue gradient, and the older PNG),
-the Windows `app_icon.ico`, the web dashboard's `icon.png`, and the core's
-`appicon.ico` (its executable). The same script draws
-the tray icons, which show the connection state and are not made from the
-art (16 px cannot show it): a disk in the state's color with the logo's
-shield in white, for the app's tray (`assets/tray`) and the core's
-(`core/internal/desktop/tray`).
+Every icon of the program comes from the artwork in `docs/images/logo.png`,
+the galactic shield (the logo the documentation shows):
+`python tool/app_icons.py` (Pillow) writes the Android launcher icon
+(adaptive, the artwork over the night sky, and the older PNG), the Android TV
+banner, the Windows `app_icon.ico`, the Linux `app_icon.png`, the app's own
+`assets/logo.png`, the web dashboard's `icon.png`, and the core's
+`appicon.ico` (its executable). The same script draws the tray icons, which
+show the connection state and are not made from the artwork (16 px cannot
+show it): the shield in white on a dark tile with a dot in the state's
+color, for the app's tray (`assets/tray`) and the core's
+(`core/internal/desktop/tray`). A new logo is a new `docs/images/logo.png`
+and another run of the script.
 
 ## Development
 

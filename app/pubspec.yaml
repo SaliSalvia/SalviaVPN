@@ -2,7 +2,7 @@ name: salvia_vpn
 description: "Cross-platform shell for the Go VPN core"
 publish_to: 'none'
 
-version: 1.0.20+158
+version: 1.0.21+159
 
 environment:
   sdk: ^3.13.5
@@ -30,7 +30,7 @@ flutter:
   generate: true
 
   assets:
-    # The fox shield beside the app's name (tool/app_icons.py).
+    # The shield artwork beside the app's name (tool/app_icons.py).
     - assets/logo.png
     - assets/tray/
     # Country flags from flag-icons (MIT, assets/flags/LICENSE), the same

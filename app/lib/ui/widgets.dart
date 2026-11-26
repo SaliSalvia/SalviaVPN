@@ -21,8 +21,9 @@ const firefoxAccountSignUpUrl = 'https://accounts.firefox.com/';
 const firefoxAccountSetPasswordUrl =
     'https://accounts.firefox.com/reset_password/';
 
-/// The program's logo, its tile (assets/logo.png, made by
-/// tool/app_icons.py), [size] logical pixels square.
+/// The program's logo (assets/logo.png, the artwork in
+/// docs/images/logo.png, made by tool/app_icons.py), [size] logical pixels
+/// square.
 class AppLogo extends StatelessWidget {
   const AppLogo({super.key, required this.size});
 
