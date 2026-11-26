@@ -1,4 +1,4 @@
-successfully downloaded text file (SHA: 35e4e452a0dd07e4bb6bafe87f09b0df49b65506)successfully downloaded text file (SHA: a7766a60d335b38e3be90d8d5d25f859ffeb2492)successfully downloaded text file (SHA: e14c481b54bbade29b40032805078921593dc47a)"""Makes every icon of the program from its artwork: the raster that
+successfully downloaded text file (SHA: f5553dd256e78821abe37b305ec9a7ee13addf1f)successfully downloaded text file (SHA: 35e4e452a0dd07e4bb6bafe87f09b0df49b65506)successfully downloaded text file (SHA: a7766a60d335b38e3be90d8d5d25f859ffeb2492)successfully downloaded text file (SHA: e14c481b54bbade29b40032805078921593dc47a)"""Makes every icon of the program from its artwork: the raster that
 docs/images/logo.png carries (source_art()). The tray keeps its own chip,
 which it draws itself (symbol()): a square chip with three pins on each
 side, and on its face a four-point star with two companion dots, the
@@ -43,6 +43,9 @@ import os
 import random
 
 from PIL import Image, ImageDraw, ImageEnhance, ImageFilter, ImageFont
+
+# Pillow renamed its resampling filters; this name works on every version.
+LANCZOS = getattr(Image, 'Resampling', Image).LANCZOS
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 APP = os.path.join(HERE, '..')
@@ -103,7 +106,7 @@ def source_art(size):
     left = (art.width - side) // 2
     top = (art.height - side) // 2
     art = art.crop((left, top, left + side, top + side))
-    return art.resize((size, size), Image.LANCZOS)
+    return art.resize((size, size), LANCZOS)
 
 
 def star_points(cx, cy, r, inner, rays=4):
@@ -146,7 +149,7 @@ def symbol(size):
         [x0 * s, y0 * s, x1 * s, y1 * s],
         radius=CHIP_RADIUS * s, outline=WHITE, width=max(1, round(CHIP_STROKE * s)))
     d.polygon(star_points(cx * s, cy * s, STAR * s, STAR_IN * s), fill=WHITE)
-    return img.resize((size, size), Image.LANCZOS)
+    return img.resize((size, size), LANCZOS)
 
 
 def nebula(size, seed=3):
@@ -205,7 +208,7 @@ def art_layer(art, size, share):
     scale = size * share / max(art.size)
     w, h = max(1, round(art.width * scale)), max(1, round(art.height * scale))
     layer = Image.new('RGBA', (size, size), (0, 0, 0, 0))
-    layer.alpha_composite(art.resize((w, h), Image.LANCZOS), ((size - w) // 2, (size - h) // 2))
+    layer.alpha_composite(art.resize((w, h), LANCZOS), ((size - w) // 2, (size - h) // 2))
     return layer
 
 
@@ -214,7 +217,7 @@ def tile(glyph, size):
     mask = Image.new('L', (size, size), 0)
     ImageDraw.Draw(mask).rounded_rectangle([0, 0, size - 1, size - 1], radius=size // 5, fill=255)
     out = Image.new('RGBA', (size, size), (0, 0, 0, 0))
-    out.paste(glyph.resize((size, size), Image.LANCZOS), (0, 0), mask)
+    out.paste(glyph.resize((size, size), LANCZOS), (0, 0), mask)
     return out
 
 
@@ -426,11 +429,11 @@ def tray_icon(side=None, dot=None):
         d.ellipse([x - r, y - r, x + r, y + r], fill=TRAY_TILE)
         r = DOT * s
         d.ellipse([x - r, y - r, x + r, y + r], fill=dot + (255,))
-    return img.resize((80, 80), Image.LANCZOS)
+    return img.resize((80, 80), LANCZOS)
 
 
 def save_ico(path, big):
-    images = [big.resize((n, n), Image.LANCZOS) for n in TRAY_SIZES]
+    images = [big.resize((n, n), LANCZOS) for n in TRAY_SIZES]
     images[-1].save(path, format='ICO', sizes=[(n, n) for n in TRAY_SIZES], append_images=images[:-1])
 
 
@@ -451,7 +454,7 @@ def tray():
     for name, big in icons.items():
         save_ico(os.path.join(app, name + '.ico'), big)
         # Linux (AppIndicator) takes a .png; 64 px stays sharp when scaled.
-        big.resize((64, 64), Image.LANCZOS).save(os.path.join(app, name + '.png'), optimize=True)
+        big.resize((64, 64), LANCZOS).save(os.path.join(app, name + '.png'), optimize=True)
     # The core's tray: an .ico for Windows, a 32 px .png elsewhere.
     folder = os.path.join(CORE, 'internal', 'desktop', 'tray')
     os.makedirs(folder, exist_ok=True)
@@ -466,7 +469,7 @@ def tray():
     }
     for name, big in states.items():
         save_ico(os.path.join(folder, name + '.ico'), big)
-        big.resize((32, 32), Image.LANCZOS).save(os.path.join(folder, name + '.png'), optimize=True)
+        big.resize((32, 32), LANCZOS).save(os.path.join(folder, name + '.png'), optimize=True)
 
 
 def main():
