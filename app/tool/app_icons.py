@@ -1,4 +1,4 @@
-"""Makes every icon of the program from its symbol, which it draws itself
+successfully downloaded text file (SHA: e14c481b54bbade29b40032805078921593dc47a)"""Makes every icon of the program from its emblem, which it draws itself
 (symbol()): a square chip with three pins on each side, and on its face a
 four-point star with two companion dots, the constellation of its nebula.
 The tile under it is the logo's nebula: a deep indigo sky with violet, pink,
@@ -133,6 +133,151 @@ def symbol(size):
     return img.resize((size, size), Image.LANCZOS)
 
 
+RING_RX, RING_RY, RING_W, RING_ANGLE = 10.6, 3.05, 1.15, -24.0
+RING2_RX, RING2_RY, RING2_W = 11.35, 2.5, 0.6
+ORB = (12.0, 10.6)
+
+
+def _cubic(p0, p1, p2, p3, steps=22):
+    """Sampled points on the cubic Bezier from p0 to p3 through p1 and p2."""
+    pts = []
+    for i in range(1, steps + 1):
+        t = i / steps
+        u = 1 - t
+        pts.append((u ** 3 * p0[0] + 3 * u * u * t * p1[0] + 3 * u * t * t * p2[0] + t ** 3 * p3[0],
+                    u ** 3 * p0[1] + 3 * u * u * t * p1[1] + 3 * u * t * t * p2[1] + t ** 3 * p3[1]))
+    return pts
+
+
+def _shield_base(cx, cy):
+    """The galactic shield's closed outline in the 24 grid: the apex, the
+    two upper slopes, the straight sides, and the curved flanks that close
+    at the tip."""
+    top = (cx, cy - 9.2)
+    corner = (cx + 5.8, cy - 6.3)
+    side = (cx + 5.8, cy + 1.0)
+    tip = (cx, cy + 9.2)
+    right = [top, corner, side] + _cubic(side, (cx + 5.8, cy + 4.8), (cx + 3.5, cy + 6.9), tip, 24)
+    left = [(2 * cx - x, y) for (x, y) in reversed(right)]
+    return right + left
+
+
+def shield_glyph(size):
+    """The emblem, on a size px transparent square, drawn at 4x: the
+    logo's galactic shield -- a sheened shield with a black-hole heart,
+    crossed by two rings of the nebula's colors, with white sparkles on
+    its face. The tray stays on symbol(); the launcher, the TV banner,
+    Windows' .ico, the web panel's page icon and the wordmark come from
+    this one."""
+    k = 4
+    s = size * k / 24
+    n = size * k
+    rad = math.radians(RING_ANGLE)
+
+    def ring_pts(rx, ry):
+        pts = []
+        for i in range(72):
+            a = 2 * math.pi * i / 72
+            x, y = rx * math.cos(a), ry * math.sin(a)
+            pts.append(((ORB[0] + x * math.cos(rad) - y * math.sin(rad)) * s,
+                        (ORB[1] + x * math.sin(rad) + y * math.cos(rad)) * s))
+        return pts
+
+    def sweep_color(i):
+        """The nebula's colors along the ring, violet - lavender - pink -
+        cyan and back, pressed onto one turn."""
+        stops = [VIOLET, LAVENDER, PINK, CYAN, VIOLET]
+        p = (i % 1) * (len(stops) - 1)
+        j = min(int(p), len(stops) - 2)
+        f = p - j
+        c0, c1 = stops[j], stops[j + 1]
+        return tuple(round(c0[q] + (c1[q] - c0[q]) * f) for q in range(3))
+
+    def ring_layer(rx, ry, width, alpha, front_only):
+        layer = Image.new('RGBA', (n, n), (0, 0, 0, 0))
+        d = ImageDraw.Draw(layer)
+        line = max(1, round(width * s))
+        pts = ring_pts(rx, ry)
+        for i in range(72):
+            ax, ay = pts[i]
+            bx, by = pts[(i + 1) % 72]
+            # The ring passes behind the shield along its top and in front
+            # of it along its bottom.
+            front = (ay + by) / 2 > ORB[1] * s
+            if front_only and not front:
+                continue
+            a = round(alpha * (1.0 if front else 0.5))
+            d.line([ax, ay, bx, by], fill=sweep_color(i / 72) + (a,), width=line)
+        return layer.filter(ImageFilter.GaussianBlur(s * 0.05))
+
+    img = Image.new('RGBA', (n, n), (0, 0, 0, 0))
+    # A soft glow behind both rings, then the rings' body.
+    glow = Image.new('RGBA', (n, n), (0, 0, 0, 0))
+    gd = ImageDraw.Draw(glow)
+    for pts, w in ((ring_pts(RING_RX, RING_RY), RING_W), (ring_pts(RING2_RX, RING2_RY), RING2_W)):
+        for i in range(72):
+            ax, ay = pts[i]
+            bx, by = pts[(i + 1) % 72]
+            gd.line([ax, ay, bx, by], fill=LAVENDER + (60,), width=max(1, round(w * s * 2.4)))
+    img.alpha_composite(glow.filter(ImageFilter.GaussianBlur(s * 0.9)))
+    img.alpha_composite(ring_layer(RING_RX, RING_RY, RING_W, 235, False))
+    img.alpha_composite(ring_layer(RING2_RX, RING2_RY, RING2_W, 130, False))
+
+    # The shield: a blurred halo, the nebula gradient in the body, a light
+    # rim, and the inner frame.
+    outline = [(x * s, y * s) for (x, y) in _shield_base(ORB[0], ORB[1] + 0.4)]
+    halo = Image.new('RGBA', (n, n), (0, 0, 0, 0))
+    ImageDraw.Draw(halo).line(outline + [outline[0]], fill=LAVENDER + (140,), width=max(1, round(1.6 * s)), joint='curve')
+    img.alpha_composite(halo.filter(ImageFilter.GaussianBlur(s * 0.8)))
+    mask = Image.new('L', (n, n), 0)
+    ImageDraw.Draw(mask).polygon(outline, fill=255)
+    rampa = Image.new('RGB', (1, 256))
+    for iy in range(256):
+        t = iy / 255
+        rampa.putpixel((0, iy), (round(110 - 34 * t), round(132 - 69 * t), round(255 - 15 * t)))
+    face = rampa.resize((n, n), Image.BILINEAR).convert('RGBA')
+    face.putalpha(mask.point(lambda a: round(a * 0.86)))
+    img.alpha_composite(face)
+    d = ImageDraw.Draw(img)
+    rim = max(1, round(0.55 * s))
+    d.line(outline + [outline[0]], fill=(232, 239, 255, 225), width=rim, joint='curve')
+    inner_src = _shield_base(ORB[0], ORB[1] + 0.55)
+    cx0, cy0 = ORB[0], ORB[1] + 0.55
+    inner = [((cx0 + (x - cx0) * 0.86) * s, (cy0 + (y - cy0) * 0.86) * s) for (x, y) in inner_src]
+    d.line(inner + [inner[0]], fill=(207, 224, 255, 185), width=max(1, round(0.3 * s)), joint='curve')
+    # The web: thin spokes from the inner frame to the heart.
+    orb_cx, orb_cy = ORB[0] * s, ORB[1] * s
+    for i in range(0, len(inner), 5):
+        x, y = inner[i]
+        d.line([x, y, orb_cx, orb_cy], fill=(234, 240, 255, 88), width=max(1, round(0.12 * s)))
+
+    # The heart: a black hole ringed in indigo, with two faint swirl arcs.
+    r = 3.0 * s
+    heart = Image.new('RGBA', (n, n), (0, 0, 0, 0))
+    hd = ImageDraw.Draw(heart)
+    hd.ellipse([orb_cx - r * 1.13, orb_cy - r * 1.13, orb_cx + r * 1.13, orb_cy + r * 1.13], fill=LAVENDER + (110,))
+    img.alpha_composite(heart.filter(ImageFilter.GaussianBlur(s * 0.45)))
+    d.ellipse([orb_cx - r, orb_cy - r, orb_cx + r, orb_cy + r], fill=(4, 3, 14, 255))
+    d.ellipse([orb_cx - r, orb_cy - r, orb_cx + r, orb_cy + r], outline=(42, 28, 102, 235), width=max(1, round(0.28 * s)))
+    for (rr, a0, a1, alpha, w) in ((3.35, 200, 330, 170, 0.22), (2.45, 215, 300, 105, 0.18)):
+        arc = Image.new('RGBA', (n, n), (0, 0, 0, 0))
+        ad = ImageDraw.Draw(arc)
+        ap = []
+        for i in range(48):
+            a = math.radians(a0 + (a1 - a0) * i / 47)
+            ap.append((orb_cx + rr * s * math.cos(a), orb_cy + rr * s * math.sin(a)))
+        for i in range(47):
+            ad.line([ap[i][0], ap[i][1], ap[i + 1][0], ap[i + 1][1]], fill=(138, 107, 255, alpha),
+                    width=max(1, round(w * s)))
+        img.alpha_composite(arc.filter(ImageFilter.GaussianBlur(s * 0.08)))
+
+    # The sparkles on the shield's face.
+    for (sx, sy, sr, si) in ((8.6, 5.2, 1.45, 0.5), (15.1, 4.7, 1.1, 0.38), (9.2, 14.4, 0.9, 0.3), (14.8, 15.6, 0.75, 0.26)):
+        d.polygon(star_points(sx * s, sy * s, sr * s, si * s), fill=WHITE)
+    # The ring in front of the shield, where it crosses its lower half.
+    img.alpha_composite(ring_layer(RING_RX, RING_RY, RING_W, 245, True))
+    return img.resize((size, size), Image.LANCZOS)
+
 def nebula(size, seed=3):
     """The logo's sky, on a size px square: a diagonal indigo gradient,
     its violet, pink, and cyan clouds, and a scatter of stars."""
@@ -192,8 +337,8 @@ def tile_art():
     mask = Image.new('L', (body, body), 0)
     ImageDraw.Draw(mask).rounded_rectangle([0, 0, body - 1, body - 1], radius=round(body * 0.2), fill=255)
     face = nebula(body)
-    span = CHIP[2] + PIN_LEN - (CHIP[0] - PIN_LEN)
-    art = symbol(round(300 * 24 / span))
+    span = 2 * RING_RX + RING_W  # the rings' span, the emblem's width in the 24 grid
+    art = shield_glyph(round(300 * 24 / span))
     face.alpha_composite(art, ((body - art.width) // 2, (body - art.height) // 2))
     out.paste(face, (off, off), mask)
     return out
@@ -470,7 +615,7 @@ def tray():
 
 def main():
     square = tile_art()
-    glyph = symbol(1024)
+    glyph = shield_glyph(1024)
     android(glyph)
     tv_banner(glyph)
     windows(square)
